@@ -6,20 +6,20 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:16 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/21 01:43:25 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/22 15:45:52 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 char *long_options[] = {"recursive", "reverse", "all", "help", NULL};
-char short_options[] = "lRart";
+char  short_options[] = "lRart";
 
 int ambiguous_option(Arg *arg) {
 	arg->error.importance = 3;
 	fprintf(stderr, ERAMBIGUOUS, arg->content);
 	ft_putstr_err(" possibilites: ");
-	for (int i = 0; long_options[i]; i++) {	
+	for (int i = 0; long_options[i]; i++) {
 		if (!ft_strncmp(arg->content, long_options[i], ft_strlen(arg->content)))
 			fprintf(stderr, " '--%s'", long_options[i]);
 	}
@@ -55,8 +55,7 @@ int check_long_option(Command *cmd, Arg *arg) {
 
 	for (int i = 0; long_options[i]; i++) {
 		if (!ft_strncmp(arg->content, long_options[i], ft_strlen(arg->content))) {
-			if (index != -1)
-				return ambiguous_option(arg);
+			if (index != -1) return ambiguous_option(arg);
 
 			if (i == 0)
 				put_flag(cmd, 'R');
@@ -68,10 +67,9 @@ int check_long_option(Command *cmd, Arg *arg) {
 				put_flag(cmd, 'h');
 
 			index = i;
-		}			
+		}
 	}
-	if (index == -1)
-		return invalid_option(arg, index);
+	if (index == -1) return invalid_option(arg, index);
 	return 0;
 }
 
@@ -79,19 +77,17 @@ int check_short_option(Command *cmd, Arg *arg) {
 	for (int i = 0; arg->content[i]; i++) {
 		if (!ft_strchr(short_options, arg->content[i]))
 			return invalid_option(arg, i);
-		put_flag(cmd, arg->content[i]);	
+		put_flag(cmd, arg->content[i]);
 	}
 	return 0;
 }
 
 void get_flags(Command *cmd) {
 	for (int i = 0; i < cmd->size; i++) {
-		if (!(cmd->args[i].type & OPTION))
-			continue;
+		if (!(cmd->args[i].type & OPTION)) continue;
 		if (cmd->args[i].type & LONG_OPTION) {
-			if (check_long_option(cmd, &cmd->args[i]))
-				return;
+			if (check_long_option(cmd, &cmd->args[i])) return;
 		} else if (check_short_option(cmd, &cmd->args[i]))
-			return ;
+			return;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:13 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/22 11:01:46 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/22 15:50:58 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,23 @@ void get_arg(Arg *curr, char *str) {
 }
 
 Arg *parse_args(int ac, char **av) {
-	Arg	*result;
+	Arg *result;
 
 	result = ft_calloc((ac - 1), sizeof(Arg));
 	for (int i = 1; i < ac; i++) {
 		get_arg(&result[i - 1], av[i]);
 	}
 	return result;
+}
+
+void find_last_file(Command *cmd) {
+	int index = 0;
+	for (int i = 0; i < cmd->size; i++) {
+		if (cmd->args[i].type & ARG && !cmd->args[i].error.importance) {
+			index = i;
+		}
+	}
+	cmd->last_file = index;
 }
 
 Command get_cmd(int ac, char **av) {
@@ -44,8 +54,8 @@ Command get_cmd(int ac, char **av) {
 	result.perm_errors = ft_strdup("");
 	get_flags(&result);
 	for (int i = 0; i < result.size; i++) {
-		if (result.args[i].type & ARG)
-			result.nb_file++;
-	}	
+		if (result.args[i].type & ARG) result.nb_file++;
+	}
+	if (result.nb_file > 1) result.flags |= basic_display;
 	return result;
 }
