@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/22 10:48:53 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/22 11:01:36 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void free_command(Command *cmd) {
 		free(cmd->args[i].content);
 	}
 	free(cmd->args);
+	free(cmd->perm_errors);
 }
 
 int main(int ac, char **av) {
@@ -30,25 +31,23 @@ int main(int ac, char **av) {
 	}
 
 	for (int i = 0; i < cmd.size; i++) {	
-		if (cmd.args[i].type & OPTION)
-			ft_printf("OPTION (%s)\n%s\n\n", cmd.args[i].type & LONG_OPTION ? "LONG" : "SIMPLE", cmd.args[i].content);
-		else if (cmd.args[i].type & ARG)
-			ft_printf("ARG\n%s\n\n", cmd.args[i].content);
+		if (cmd.args[i].type & ARG) {
+			pre_treatment(&cmd.args[i], &cmd);
+		}
 	}
 
-	ft_printf("--FLAGS\n");
-	if (cmd.flags & recursive)
-		ft_printf("\t-Recursive\n");
-	if (cmd.flags & list)
-		ft_printf("\t-List\n");
-	if (cmd.flags & all)
-		ft_printf("\t	-All\n");	
-	if (cmd.flags & reverse)
-		ft_printf("\t-Reverse\n");	
-	if (cmd.flags & time)
-		ft_printf("\t-Time\n");	
-	if (cmd.flags & help)
-		ft_printf("\t-Help\n");	
+	for (int i = 0; i < cmd.size; i++) {
+		if (cmd.args[i].type & ARG && !cmd.args[i].error.importance) {
+			ft_ls(cmd.args[i].content, &cmd);
+			ft_printf("\n");
+		}
+	}
+	if (!cmd.nb_file)
+		ft_ls(".", &cmd);
 
+
+	ft_printf("%s", cmd.perm_errors);
 	free_command(&cmd);
+
+	return 0;
 }

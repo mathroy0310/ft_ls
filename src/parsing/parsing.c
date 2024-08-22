@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:13 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/21 01:35:14 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/22 11:01:46 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ Command get_cmd(int ac, char **av) {
 
 	result.args = parse_args(ac, av);
 	result.size = ac - 1;
+	result.perm_errors = ft_strdup("");
 	get_flags(&result);
-
+	for (int i = 0; i < result.size; i++) {
+		if (result.args[i].type & ARG)
+			result.nb_file++;
+	}	
 	return result;
 }
