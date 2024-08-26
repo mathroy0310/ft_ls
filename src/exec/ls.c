@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 14:11:21 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 16:24:31 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int ft_ls(Command *cmd, File *parent) {
 	DIR           *dir;
 	struct dirent *entry;
+
+	if (parent->type == REGULAR_FILE) return 0;
 
 	if (!(dir = opendir(parent->path))) {
 		if (!ft_strcmp(strerror(errno), "Permission denied"))

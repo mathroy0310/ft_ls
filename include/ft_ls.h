@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 14:14:34 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 16:24:21 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct {
 	int   last_file;
 	bool  subdir_error;
 	char *perm_errors;
+	bool  file_arg;
 } Command;
 
 // apres les typedefs car besoin

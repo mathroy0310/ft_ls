@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 14:16:52 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 16:25:15 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void free_command(Command *cmd) {
 }
 
 static void ls_display(Command *cmd, File *node) {
+	if (node->type == REGULAR_FILE) return;
+
 	if (node->error && !ft_strcmp(node->error, "ERNOSUCHFILE"))
 		return;
 	else if (node->error && node->level && !ft_strcmp(node->error, "ERNOPERM")) {
@@ -67,6 +69,17 @@ int main(int ac, char **av) {
 	for (int i = 0; i < cmd->nb_file; i++) {
 		ft_ls(cmd, cmd->file_system[i]);
 	}
+
+	bool files_in_args = false;
+	for (int i = 0; i < cmd->nb_file; i++) {
+		if (files_in_args) ft_printf(" ");
+		if (cmd->file_system[i]->type == REGULAR_FILE) {
+			ft_printf("%s", cmd->file_system[i]->path);
+			files_in_args = true;
+		}
+	}
+
+	if (files_in_args) ft_printf("\n\n");
 
 	for (int i = 0; i < cmd->nb_file; i++) {
 		ls_display(cmd, cmd->file_system[i]);
