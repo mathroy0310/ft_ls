@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/22 16:18:15 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 13:52:39 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct File {
 	char *error;
 
 	int nb_childs;
+	int level;
 } File;
 
 typedef struct {

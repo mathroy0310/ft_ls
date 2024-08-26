@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/22 16:13:18 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 13:55:55 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ int ft_ls(Command *cmd, File *parent) {
 	struct dirent *entry;
 
 	if (!(dir = opendir(parent->path))) {
-		fprintf(stderr, ERNOAC, parent->path);
-		perror("");
-		cmd->subdir_error = true;
+		if (!ft_strcmp(strerror(errno), "Permission denied"))
+			parent->error = ft_strdup("ERNOPERM");
+		else {
+			fprintf(stderr, ERNOAC, parent->path);
+			perror("");
+			parent->error = ft_strdup("ERNOSUCHFILE");
+		}
 		return 2;
 	}
 
