@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 16:25:15 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 16:38:23 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,44 +17,56 @@ void free_command(Command *cmd) {
 		free(cmd->args[i].content);
 	}
 	free(cmd->args);
-	free(cmd->perm_errors);
 }
 
 static void ls_display(Command *cmd, File *node) {
-	if (node->type == REGULAR_FILE) return;
-
+	if (node->type == REGULAR_FILE)
+		return ;
 	if (node->error && !ft_strcmp(node->error, "ERNOSUCHFILE"))
 		return;
-	else if (node->error && node->level && !ft_strcmp(node->error, "ERNOPERM")) {
+	else if (node->error && !ft_strcmp(node->error, "ERNOPERM")) {
 		fprintf(stderr, ERNOPERM, node->path);
 		return;
 	}
-	if (cmd->flags & basic_display) ft_printf("%s:\n", node->path);
 
-	sort(node, compare_name);
+	if (!cmd->displayed)
+		cmd->displayed = true;
+	else
+		ft_printf("\n");
+
+	if (cmd->flags & basic_display)
+		ft_printf("%s:\n", node->path);
+
+	sort(node->childs, node->nb_childs, compare_name);
 
 	if (cmd->flags & reverse) {
 		for (int i = node->nb_childs - 1; i >= 0; i--) {
-			if (node->childs[i]->type == DIRECTORY) ft_printf(DIR_COLOR);
+			if (node->childs[i]->type == DIRECTORY)
+				ft_printf(DIR_COLOR);
 			ft_printf("%s%s ", node->childs[i]->name, RESET);
 		}
-		ft_printf("\n");
-		if (!(cmd->flags & recursive)) return;
+		if (node->nb_childs)
+			ft_printf("\n");
+		if (!(cmd->flags & recursive))
+			return ;
 		for (int i = node->nb_childs - 1; i >= 0; i--) {
 			if (node->childs[i]->type == DIRECTORY)
 				ls_display(cmd, node->childs[i]);
 		}
 	} else {
 		for (int i = 0; i < node->nb_childs; i++) {
-			if (node->childs[i]->type == DIRECTORY) ft_printf(DIR_COLOR);
+			if (node->childs[i]->type == DIRECTORY)
+				ft_printf(DIR_COLOR);
 			ft_printf("%s%s ", node->childs[i]->name, RESET);
 		}
-		ft_printf("\n");
-		if (!(cmd->flags & recursive)) return;
+		if (node->nb_childs)
+			ft_printf("\n");
+		if (!(cmd->flags & recursive))
+			return ;
 		for (int i = 0; i < node->nb_childs; i++) {
 			if (node->childs[i]->type == DIRECTORY)
 				ls_display(cmd, node->childs[i]);
-		}
+		}	
 	}
 }
 
@@ -69,6 +81,8 @@ int main(int ac, char **av) {
 	for (int i = 0; i < cmd->nb_file; i++) {
 		ft_ls(cmd, cmd->file_system[i]);
 	}
+
+	sort(cmd->file_system, cmd->nb_file, compare_name);
 
 	bool files_in_args = false;
 	for (int i = 0; i < cmd->nb_file; i++) {
@@ -85,10 +99,6 @@ int main(int ac, char **av) {
 		ls_display(cmd, cmd->file_system[i]);
 	}
 
-	for (int i = 0; i < cmd->nb_file; i++) {
-		if (cmd->file_system[i]->error && !ft_strcmp(cmd->file_system[i]->error, "ERNOPERM"))
-			fprintf(stderr, ERNOPERM, cmd->file_system[i]->path);
-	}
 	free_command(cmd);
 
 	return 0;

@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 16:24:21 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 16:37:36 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct File {
 	char *error;
 
 	int nb_childs;
-	int level;
 } File;
 
 typedef struct {
@@ -69,12 +68,12 @@ typedef struct {
 	Flag   flags;
 	File **file_system;
 
-	int   size;
-	int   nb_file;
-	int   last_file;
-	bool  subdir_error;
-	char *perm_errors;
-	bool  file_arg;
+	int  size;
+	int  nb_file;
+	int  last_file;
+	bool subdir_error;
+	bool displayed;
+	bool file_arg;
 } Command;
 
 // apres les typedefs car besoin
