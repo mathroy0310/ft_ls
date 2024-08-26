@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 13:56:18 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 14:07:50 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@ static void ls_display(Command *cmd, File *node) {
 		fprintf(stderr, ERNOPERM, node->path);
 		return;
 	}
-	ft_printf("%s:\n", node->path);
+	if (cmd->flags & basic_display) ft_printf("%s:\n", node->path);
 	for (int i = 0; i < node->nb_childs; i++) {
 		ft_printf("%s ", node->childs[i]->name);
 	}
-	ft_printf("\n\n");
+	ft_printf("\n");
 	if (!(cmd->flags & recursive)) return;
 	for (int i = 0; i < node->nb_childs; i++) {
-		if (node->childs[i]->type == DIRECTORY) ls_display(cmd, node->childs[i]);
+		if (node->childs[i]->type == DIRECTORY)
+			ls_display(cmd, node->childs[i]);
 	}
 }
 

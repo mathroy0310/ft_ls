@@ -22,7 +22,7 @@ char **ft_strsjoin(char **arr, char *str) {
 		result[i] = arr[i];
 	}
 	result[size - 1] = str;
-	result[size] = NULL;
+	result[size]     = NULL;
 	return result;
 }
 

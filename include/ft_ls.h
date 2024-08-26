@@ -14,28 +14,28 @@
 
 #include "errors.h"
 #include "libft.h"
+#include "utils.h"
 #include <errno.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <stdbool.h>
-#include "utils.h"	
 
 typedef enum {
-	OPTION = 1 << 0,
+	OPTION      = 1 << 0,
 	LONG_OPTION = 1 << 1,
-	ARG = 1 << 2,
+	ARG         = 1 << 2,
 } Arg_type;
 
 typedef enum { DIRECTORY, REGULAR_FILE, SYMLINK } FileType;
 
 typedef enum {
-	list = 1 << 0,
-	recursive = 1 << 1,
-	all = 1 << 2,
-	reverse = 1 << 3,
-	time = 1 << 4,
-	help = 1 << 5,
+	list          = 1 << 0,
+	recursive     = 1 << 1,
+	all           = 1 << 2,
+	reverse       = 1 << 3,
+	time          = 1 << 4,
+	help          = 1 << 5,
 	basic_display = 1 << 6,
 } Flag;
 
@@ -73,8 +73,6 @@ typedef struct {
 	bool  subdir_error;
 	char *perm_errors;
 } Command;
-
-
 
 // apres les typedefs car besoin
 #include "exec.h"

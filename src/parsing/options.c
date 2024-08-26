@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-char *long_options[] = {"recursive", "reverse", "all", "help", NULL};
+char *long_options[]  = {"recursive", "reverse", "all", "help", NULL};
 char  short_options[] = "lRart";
 
 int ambiguous_option(Arg *arg) {

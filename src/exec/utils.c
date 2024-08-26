@@ -9,15 +9,15 @@ void add_to_file_system(File *parent, struct dirent *entry) {
 	free(parent->childs);
 	parent->childs = new_file_system;
 
-	File *new_entry = ft_calloc(1, sizeof(File));
+	File *new_entry                    = ft_calloc(1, sizeof(File));
 	new_file_system[parent->nb_childs] = new_entry;
 	parent->nb_childs++;
 
-	new_entry->name = ft_strdup(entry->d_name);
+	new_entry->name  = ft_strdup(entry->d_name);
 	new_entry->level = parent->level + 1;
-	new_entry->path = ft_strdup(parent->path);
-	new_entry->path = clean_join(new_entry->path, "/");
-	new_entry->path = clean_join(new_entry->path, new_entry->name);
+	new_entry->path  = ft_strdup(parent->path);
+	new_entry->path  = clean_join(new_entry->path, "/");
+	new_entry->path  = clean_join(new_entry->path, new_entry->name);
 
 	struct stat statbuf;
 	if (stat(new_entry->path, &statbuf) == -1) {

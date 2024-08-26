@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:13 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 13:50:49 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 13:59:07 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void get_arg(Arg *curr, char *str) {
 		} else
 			curr->content = ft_strdup(str + 1);
 	} else {
-		curr->type = ARG;
+		curr->type    = ARG;
 		curr->content = ft_strdup(str);
 	}
 }
@@ -39,8 +39,8 @@ Arg *parse_args(int ac, char **av) {
 Command *init_cmd(int ac, char **av) {
 	Command *result = ft_calloc(1, sizeof(Command));
 
-	result->args = parse_args(ac, av);
-	result->size = ac - 1;
+	result->args        = parse_args(ac, av);
+	result->size        = ac - 1;
 	result->perm_errors = ft_strdup("");
 	get_flags(result);
 
@@ -48,11 +48,12 @@ Command *init_cmd(int ac, char **av) {
 		if (result->args[i].type & ARG) result->nb_file++;
 	}
 
-	if (result->nb_file > 1) result->flags |= basic_display;
+	if (result->nb_file > 1 || result->flags & recursive)
+		result->flags |= basic_display;
 
 	if (result->nb_file == 0) {
-		result->file_system = malloc(sizeof(File *));
-		result->file_system[0] = ft_calloc(1, sizeof(File));
+		result->file_system          = malloc(sizeof(File *));
+		result->file_system[0]       = ft_calloc(1, sizeof(File));
 		result->file_system[0]->path = ft_strdup(".");
 		result->nb_file++;
 		return result;
@@ -62,7 +63,7 @@ Command *init_cmd(int ac, char **av) {
 
 	for (int i = 0, j = 0; i < result->size; i++) {
 		if (result->args[i].type & ARG) {
-			result->file_system[j] = ft_calloc(1, sizeof(File));
+			result->file_system[j]         = ft_calloc(1, sizeof(File));
 			result->file_system[j++]->path = ft_strdup(result->args[i].content);
 		}
 	}

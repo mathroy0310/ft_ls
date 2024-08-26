@@ -12,8 +12,8 @@
 
 #pragma once
 
-#include <stdlib.h>
 #include "libft.h"
+#include <stdlib.h>
 
 char **ft_strsjoin(char **arr, char *str);
 char  *clean_join(char *origin, const char *to_join);
