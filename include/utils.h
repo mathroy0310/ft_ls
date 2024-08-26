@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/22 10:52:10 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/22 16:03:43 by maroy            ###   ########.fr       */
+/*   Created: 2024/08/22 15:54:24 by maroy             #+#    #+#             */
+/*   Updated: 2024/08/22 16:14:26 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <dirent.h>
-#include <stdio.h>
-#include <sys/types.h>
+#include <stdlib.h>
+#include "libft.h"
 
-void pre_treatment(File *file, Command *cmd);
-int  ft_ls(Command *cmd, File *parent);
-
-void add_to_file_system(File *parent, struct dirent *entry);
+char **ft_strsjoin(char **arr, char *str);
+char  *clean_join(char *origin, const char *to_join);

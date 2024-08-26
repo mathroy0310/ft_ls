@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:13 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/22 15:50:58 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 13:50:49 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,36 @@ Arg *parse_args(int ac, char **av) {
 	return result;
 }
 
-void find_last_file(Command *cmd) {
-	int index = 0;
-	for (int i = 0; i < cmd->size; i++) {
-		if (cmd->args[i].type & ARG && !cmd->args[i].error.importance) {
-			index = i;
+Command *init_cmd(int ac, char **av) {
+	Command *result = ft_calloc(1, sizeof(Command));
+
+	result->args = parse_args(ac, av);
+	result->size = ac - 1;
+	result->perm_errors = ft_strdup("");
+	get_flags(result);
+
+	for (int i = 0; i < result->size; i++) {
+		if (result->args[i].type & ARG) result->nb_file++;
+	}
+
+	if (result->nb_file > 1) result->flags |= basic_display;
+
+	if (result->nb_file == 0) {
+		result->file_system = malloc(sizeof(File *));
+		result->file_system[0] = ft_calloc(1, sizeof(File));
+		result->file_system[0]->path = ft_strdup(".");
+		result->nb_file++;
+		return result;
+	}
+
+	result->file_system = malloc(result->nb_file * sizeof(File *));
+
+	for (int i = 0, j = 0; i < result->size; i++) {
+		if (result->args[i].type & ARG) {
+			result->file_system[j] = ft_calloc(1, sizeof(File));
+			result->file_system[j++]->path = ft_strdup(result->args[i].content);
 		}
 	}
-	cmd->last_file = index;
-}
 
-Command get_cmd(int ac, char **av) {
-	Command result = {};
-
-	result.args = parse_args(ac, av);
-	result.size = ac - 1;
-	result.perm_errors = ft_strdup("");
-	get_flags(&result);
-	for (int i = 0; i < result.size; i++) {
-		if (result.args[i].type & ARG) result.nb_file++;
-	}
-	if (result.nb_file > 1) result.flags |= basic_display;
 	return result;
 }

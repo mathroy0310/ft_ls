@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/22 15:51:02 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/22 16:09:50 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,42 @@ void free_command(Command *cmd) {
 	free(cmd->perm_errors);
 }
 
-int main(int ac, char **av) {
-	Command cmd = get_cmd(ac, av);
+static void ls_display(Command *cmd, File *node) {
+	ft_printf("%s:\n", node->path);
+	for (int i = 0; i < node->nb_childs; i++) {
+		ft_printf("%s ", node->childs[i]->name);
+	}
+	ft_printf("\n\n");
+	if (!(cmd->flags & recursive))
+		return ;
+	for (int i = 0; i < node->nb_childs; i++) {
+		if (node->childs[i]->type == DIRECTORY)
+			ls_display(cmd, node->childs[i]);
+	}
+}
 
-	if (fatal_error(&cmd)) {
-		free_command(&cmd);
+int main(int ac, char **av) {
+	Command *cmd = init_cmd(ac, av);
+
+	if (fatal_error(cmd)) {
+		free_command(cmd);
 		return 2;
 	}
 
-	for (int i = 0; i < cmd.size; i++) {
-		if (cmd.args[i].type & ARG) {
-			pre_treatment(&cmd.args[i], &cmd);
-		}
+	for (int i = 0; i < cmd->nb_file; i++) {
+		pre_treatment(cmd->file_system[i], cmd);
 	}
 
-	find_last_file(&cmd);
-	
-	for (int i = 0; i < cmd.size; i++) {
-		if (cmd.args[i].type & ARG && !cmd.args[i].error.importance) {
-			ft_ls(cmd.args[i].content, &cmd);
-			if (cmd.flags & basic_display && i != cmd.last_file)
-				ft_printf("\n");
-		}
+	for (int i = 0; i < cmd->nb_file; i++) {
+		ft_ls(cmd, cmd->file_system[i]);
 	}
-	if (!cmd.nb_file) ft_ls(".", &cmd);
 
-	fprintf(stderr, "%s", cmd.perm_errors);
-	free_command(&cmd);
+	for (int i = 0; i < cmd->nb_file; i++) {
+		ls_display(cmd, cmd->file_system[i]);
+	}
+
+	fprintf(stderr, "%s", cmd->perm_errors);
+	free_command(cmd);
 
 	return 0;
 }
