@@ -6,7 +6,7 @@
 #    By: maroy <maroy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 00:58:21 by maroy             #+#    #+#              #
-#    Updated: 2024/08/26 14:06:45 by maroy            ###   ########.fr        #
+#    Updated: 2024/08/26 14:15:03 by maroy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,4 +50,3 @@ re: clean all
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@make -C libft clean

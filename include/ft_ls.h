@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 13:52:39 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 14:14:34 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 #include "errors.h"
 #include "libft.h"
-#include "utils.h"
 #include <errno.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+
+#define DIR_COLOR "\e[1;34m"
+#define RESET "\e[0m"
 
 typedef enum {
 	OPTION      = 1 << 0,
@@ -77,3 +79,4 @@ typedef struct {
 // apres les typedefs car besoin
 #include "exec.h"
 #include "parsing.h"
+#include "utils.h"
