@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 14:13:24 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/26 14:16:52 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,29 @@ static void ls_display(Command *cmd, File *node) {
 	if (cmd->flags & basic_display) ft_printf("%s:\n", node->path);
 
 	sort(node, compare_name);
-	for (int i = 0; i < node->nb_childs; i++) {
-		if (node->childs[i]->type == DIRECTORY) ft_printf(DIR_COLOR);
-		ft_printf("%s%s ", node->childs[i]->name, RESET);
-	}
-	ft_printf("\n");
-	if (!(cmd->flags & recursive)) return;
-	for (int i = 0; i < node->nb_childs; i++) {
-		if (node->childs[i]->type == DIRECTORY)
-			ls_display(cmd, node->childs[i]);
+
+	if (cmd->flags & reverse) {
+		for (int i = node->nb_childs - 1; i >= 0; i--) {
+			if (node->childs[i]->type == DIRECTORY) ft_printf(DIR_COLOR);
+			ft_printf("%s%s ", node->childs[i]->name, RESET);
+		}
+		ft_printf("\n");
+		if (!(cmd->flags & recursive)) return;
+		for (int i = node->nb_childs - 1; i >= 0; i--) {
+			if (node->childs[i]->type == DIRECTORY)
+				ls_display(cmd, node->childs[i]);
+		}
+	} else {
+		for (int i = 0; i < node->nb_childs; i++) {
+			if (node->childs[i]->type == DIRECTORY) ft_printf(DIR_COLOR);
+			ft_printf("%s%s ", node->childs[i]->name, RESET);
+		}
+		ft_printf("\n");
+		if (!(cmd->flags & recursive)) return;
+		for (int i = 0; i < node->nb_childs; i++) {
+			if (node->childs[i]->type == DIRECTORY)
+				ls_display(cmd, node->childs[i]);
+		}
 	}
 }
 
