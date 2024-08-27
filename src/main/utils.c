@@ -6,12 +6,11 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:35:37 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:39:07 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
-
 
 void free_command(Command *cmd) {
 	for (int i = 0; i < cmd->size; i++) {
@@ -75,12 +74,12 @@ void analyze_file(File *file) {
 	struct group  *group;
 
 	if ((pw = getpwuid(statbuf.st_uid)) == NULL) {
-		perror("getpwuid");
+		perror("ft_ls");
 		return;
 	}
 
 	if ((group = getgrgid(statbuf.st_gid)) == NULL) {
-		perror("getgrgid");
+		perror("ft_ls");
 		return;
 	}
 
