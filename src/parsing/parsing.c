@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:13 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 16:36:29 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:08:49 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,6 @@ Arg *parse_args(int ac, char **av) {
 	return result;
 }
 
-void analyze_file(File *file) {
-	struct stat statbuf;
-
-	if (stat(file->path, &statbuf) == -1) return;
-	
-	if (S_ISDIR(statbuf.st_mode))
-		file->type = DIRECTORY;
-	else if (S_ISLNK(statbuf.st_mode))
-		file->type = SYMLINK;
-	else if (S_ISREG(statbuf.st_mode))
-		file->type = REGULAR_FILE;
-}
-
 Command *init_cmd(int ac, char **av) {
 	Command *result = ft_calloc(1, sizeof(Command));
 
@@ -66,7 +53,9 @@ Command *init_cmd(int ac, char **av) {
 	if (result->nb_file == 0) {
 		result->file_system          = malloc(sizeof(File *));
 		result->file_system[0]       = ft_calloc(1, sizeof(File));
+		result->file_system[0]->name = ft_strdup(".");
 		result->file_system[0]->path = ft_strdup(".");
+		analyze_file(result->file_system[0]);
 		result->nb_file++;
 		return result;
 	}

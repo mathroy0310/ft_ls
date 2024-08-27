@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 16:37:36 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:06:55 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,13 @@
 #include "errors.h"
 #include "libft.h"
 #include <errno.h>
+#include <grp.h>
+#include <pwd.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <time.h>
 
 #define DIR_COLOR "\e[1;34m"
 #define RESET "\e[0m"
@@ -32,11 +35,11 @@ typedef enum {
 typedef enum { DIRECTORY, REGULAR_FILE, SYMLINK } FileType;
 
 typedef enum {
-	list          = 1 << 0,
+	long_display  = 1 << 0,
 	recursive     = 1 << 1,
 	all           = 1 << 2,
 	reverse       = 1 << 3,
-	time          = 1 << 4,
+	time_modif    = 1 << 4,
 	help          = 1 << 5,
 	basic_display = 1 << 6,
 } Flag;
@@ -49,12 +52,20 @@ typedef struct {
 typedef struct File {
 	FileType      type;
 	struct File **childs;
+	char         *path;
 
 	char *name;
-	char *path;
 	char *error;
 
-	int nb_childs;
+	int    nb_childs;
+	time_t last_modif;
+	char   permissions[11];
+	char   last_modif_str[13];
+	int    nb_links;
+	char  *owner;
+	char  *group;
+	int    size;
+	int    blocks;
 } File;
 
 typedef struct {

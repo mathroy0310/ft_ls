@@ -6,7 +6,7 @@
 #    By: maroy <maroy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 00:58:21 by maroy             #+#    #+#              #
-#    Updated: 2024/08/26 14:15:03 by maroy            ###   ########.fr        #
+#    Updated: 2024/08/27 01:10:27 by maroy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,13 +16,13 @@ LIBFT = libft/libft.a
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g  -Iinclude -Ilibft/inc
+CFLAGS = -Wall -Wextra -Werror -g  -Iinclude -Ilibft/inc -fsanitize=address
 
 LDFLAGS = -Llibft -lft
 
 SRC_DIR = src/
 OBJ_DIR = obj/
-FILES = main/main main/utils parsing/errors parsing/options parsing/parsing exec/ls exec/utils
+FILES = main/main main/utils main/sort parsing/errors parsing/options parsing/parsing exec/ls exec/utils
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
