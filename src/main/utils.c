@@ -6,11 +6,21 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:08:10 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:14:19 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+void free_file(File *file) {
+	if (file->error) free(file->error);
+	free(file->name);
+	free(file->path);
+	free(file->childs);
+	free(file->owner);
+	free(file->group);
+	free(file);
+}
 
 char *clean_join(char *origin, const char *to_join) {
 	char *tmp = origin;

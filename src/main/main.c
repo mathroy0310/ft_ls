@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:10:00 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:14:25 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,100 +19,6 @@ void free_command(Command *cmd) {
 	free(cmd->args);
 	free(cmd->file_system);
 	free(cmd);
-}
-
-void free_file(File *file) {
-	if (file->error) free(file->error);
-	free(file->name);
-	free(file->path);
-	free(file->childs);
-	free(file->owner);
-	free(file->group);
-	free(file);
-}
-
-static void ls_display(Command *cmd, File *node) {
-	if (node->type == REGULAR_FILE) {
-		free_file(node);
-		return;
-	}
-	if (node->error && !ft_strcmp(node->error, "ERNOSUCHFILE")) {
-		free_file(node);
-		return;
-	} else if (node->error && !ft_strcmp(node->error, "ERNOPERM")) {
-		fprintf(stderr, ERNOPERM, node->path);
-		return;
-	}
-
-	if (!cmd->displayed)
-		cmd->displayed = true;
-	else
-		ft_printf("\n");
-
-	if (cmd->flags & basic_display) ft_printf("%s:\n", node->path);
-
-	if (cmd->flags & time_modif)
-		sort(node->childs, node->nb_childs, compare_time);
-	else
-		sort(node->childs, node->nb_childs, compare_name);
-
-	if (cmd->flags & long_display) ft_printf("total %d\n", node->blocks);
-	if (cmd->flags & reverse) {
-		for (int i = node->nb_childs - 1; i >= 0; i--) {
-			if (cmd->flags & long_display) {
-				ft_printf("%s %d %s %s %d %s %s%s%s", node->childs[i]->permissions,
-				          node->childs[i]->nb_links, node->childs[i]->owner,
-				          node->childs[i]->group, node->childs[i]->size,
-				          node->childs[i]->last_modif_str, node->childs[i]->type == DIRECTORY ? DIR_COLOR : "",
-				          node->childs[i]->name, RESET);
-				if (i > 0) ft_printf("\n");
-			} else {
-				ft_printf("%s%s%s ", node->childs[i]->type == DIRECTORY ? DIR_COLOR : "",
-				          node->childs[i]->name, RESET);
-			}
-		}
-		if (node->nb_childs) ft_printf("\n");
-		if (cmd->flags & recursive) {
-			for (int i = node->nb_childs - 1; i >= 0; i--) {
-				if (node->childs[i]->type == DIRECTORY)
-					ls_display(cmd, node->childs[i]);
-				else
-					free_file(node->childs[i]);
-			}
-		} else {
-			for (int i = node->nb_childs - 1; i >= 0; i--) {
-				free_file(node->childs[i]);
-			}
-		}
-	} else {
-		for (int i = 0; i < node->nb_childs; i++) {
-			if (cmd->flags & long_display) {
-				ft_printf("%s %d %s %s %d %s %s%s%s", node->childs[i]->permissions,
-				          node->childs[i]->nb_links, node->childs[i]->owner,
-				          node->childs[i]->group, node->childs[i]->size,
-				          node->childs[i]->last_modif_str, node->childs[i]->type == DIRECTORY ? DIR_COLOR : "",
-				          node->childs[i]->name, RESET);
-				if (i < node->nb_childs - 1) ft_printf("\n");
-			} else {
-				ft_printf("%s%s%s ", node->childs[i]->type == DIRECTORY ? DIR_COLOR : "",
-				          node->childs[i]->name, RESET);
-			}
-		}
-		if (node->nb_childs) ft_printf("\n");
-		if (cmd->flags & recursive) {
-			for (int i = 0; i < node->nb_childs; i++) {
-				if (node->childs[i]->type == DIRECTORY)
-					ls_display(cmd, node->childs[i]);
-				else
-					free_file(node->childs[i]);
-			}
-		} else {
-			for (int i = node->nb_childs - 1; i >= 0; i--) {
-				free_file(node->childs[i]);
-			}
-		}
-	}
-	free_file(node);
 }
 
 int main(int ac, char **av) {
