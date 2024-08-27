@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:22:54 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:38:15 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,17 @@ typedef enum {
 	time_modif    = 1 << 4,
 	help          = 1 << 5,
 	basic_display = 1 << 6,
-	commas        = 1 << 7,	
+	commas        = 1 << 7,
+	quotes        = 1 << 8
 } Flag;
-
-typedef struct {
-	int importance;
-	int index;
-} Error;
 
 typedef struct File {
 	FileType      type;
 	struct File **childs;
-	char         *path;
 
+	char *path;
 	char *name;
+
 	char *error;
 
 	int    nb_childs;
@@ -72,7 +69,7 @@ typedef struct File {
 typedef struct {
 	Arg_type type;
 	char    *content;
-	Error    error;
+	bool     error;
 } Arg;
 
 typedef struct {

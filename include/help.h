@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:16:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:16:39 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:34:22 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 	"-r, --reverse              reverse order while sorting\n"               \
 	"-R, --recursive            list subdirectories recursively\n"           \
 	"-t                         sort by time, newest first; see --time\n"    \
-	"--help     display this help and exit\n"                                \
+	"\t--help     display this help and exit\n"                                \
 	"\n"                                                                     \
 	"Use the define in include/header.c to modify the colors.\n"             \
 	"\n"                                                                     \

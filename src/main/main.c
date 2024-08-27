@@ -6,21 +6,12 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:25:52 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:35:58 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 #include "help.h"
-
-void free_command(Command *cmd) {
-	for (int i = 0; i < cmd->size; i++) {
-		free(cmd->args[i].content);
-	}
-	free(cmd->args);
-	free(cmd->file_system);
-	free(cmd);
-}
 
 void check_return_status(Command *cmd) {
 	for (int i = 0; i < cmd->nb_file; i++) {
@@ -37,10 +28,7 @@ int main(int ac, char **av) {
 	}
 
 	if (fatal_error(cmd)) {
-		for (int i = 0; i < cmd->nb_file; i++) {
-			free_file(cmd->file_system[i]);
-		}
-		free_command(cmd);
+		ft_printf(TRY_HELP);
 		return 2;
 	}
 
@@ -56,7 +44,8 @@ int main(int ac, char **av) {
 	for (int i = 0; i < cmd->nb_file; i++) {
 		if (files_in_args) ft_printf(" ");
 		if (cmd->file_system[i]->type == REGULAR_FILE) {
-			ft_printf("%s%s", cmd->file_system[i]->path, cmd->flags & commas && i < cmd->nb_file - 1 ? "," : "");
+			ft_printf("%s%s%s%s", cmd->flags & quotes ? "\"" : "",
+			          cmd->file_system[i]->path, cmd->flags & quotes ? "\"" : "", cmd->flags & commas && i < cmd->nb_file - 1 ? "," : "");
 			files_in_args = true;
 		}
 	}

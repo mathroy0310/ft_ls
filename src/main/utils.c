@@ -6,11 +6,21 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:14:19 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:35:37 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+
+void free_command(Command *cmd) {
+	for (int i = 0; i < cmd->size; i++) {
+		free(cmd->args[i].content);
+	}
+	free(cmd->args);
+	free(cmd->file_system);
+	free(cmd);
+}
 
 void free_file(File *file) {
 	if (file->error) free(file->error);

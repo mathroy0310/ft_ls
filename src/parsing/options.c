@@ -6,17 +6,18 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:16 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:21:23 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:36:50 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-char *long_options[]  = {"recursive", "reverse", "all", "help", NULL};
-char  short_options[] = "lRartm";
+char *long_options[]  = {"recursive", "reverse",    "all",
+                         "help",      "quote-name", NULL};
+char  short_options[] = "lRartmQ";
 
 int ambiguous_option(Arg *arg) {
-	arg->error.importance = 3;
+	arg->error = true;
 	fprintf(stderr, ERAMBIGUOUS, arg->content);
 	ft_putstr_err(" possibilites: ");
 	for (int i = 0; long_options[i]; i++) {
@@ -27,7 +28,7 @@ int ambiguous_option(Arg *arg) {
 }
 
 int invalid_option(Arg *arg, int index) {
-	arg->error.importance = 3;
+	arg->error = true;
 	if (index == -1)
 		fprintf(stderr, ERNOOPT, arg->content);
 	else
@@ -50,6 +51,8 @@ void put_flag(Command *cmd, char flag) {
 		cmd->flags |= help;
 	else if (flag == 'm')
 		cmd->flags |= commas;
+	else if (flag == 'Q')
+		cmd->flags |= quotes;
 }
 
 int check_long_option(Command *cmd, Arg *arg) {
@@ -67,6 +70,8 @@ int check_long_option(Command *cmd, Arg *arg) {
 				put_flag(cmd, 'a');
 			else if (i == 3)
 				put_flag(cmd, 'h');
+			else if (i == 4)
+				put_flag(cmd, 'Q');
 
 			index = i;
 		}

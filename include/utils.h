@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:24 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:14:32 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:34:03 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include "libft.h"
 #include <stdlib.h>
 
+void free_command(Command *cmd);
 void free_file(File *file);
+
 void ls_display(Command *cmd, File *node);
 
 char *clean_join(char *origin, const char *to_join);
