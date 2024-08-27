@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:15:19 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:22:33 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int handle_errors(File *node) {
 void display_file(Command *cmd, File *node, int last) {
 	if (cmd->flags & long_display) {
 		ft_printf("%s %d %s %s %d %s %s%s%s", node->permissions, node->nb_links, node->owner, node->group, node->size, node->last_modif_str, node->type == DIRECTORY ? DIR_COLOR : "", node->name, RESET);
-		if (last) ft_printf("\n");
+		if (!last) ft_printf("\n");
 	} else {
-		ft_printf("%s%s%s ", node->type == DIRECTORY ? DIR_COLOR : "", node->name, RESET);
+		ft_printf("%s%s%s%s ", node->type == DIRECTORY ? DIR_COLOR : "", node->name, RESET, cmd->flags & commas && !last ? "," : "");
 	}
 }
 
@@ -66,11 +66,11 @@ void ls_display(Command *cmd, File *node) {
 	if (cmd->flags & long_display) ft_printf("total %d\n", node->blocks);
 	if (cmd->flags & reverse) {
 		for (int i = node->nb_childs - 1; i >= 0; i--) {
-			display_file(cmd, node->childs[i], i > 0);
+			display_file(cmd, node->childs[i], i == 0);
 		}
 	} else {
 		for (int i = 0; i < node->nb_childs; i++) {
-			display_file(cmd, node->childs[i], i < node->nb_childs - 1);
+			display_file(cmd, node->childs[i], i == node->nb_childs - 1);
 		}
 	}
 	if (node->nb_childs) ft_printf("\n");

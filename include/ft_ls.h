@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:06:55 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:22:54 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef enum {
 	time_modif    = 1 << 4,
 	help          = 1 << 5,
 	basic_display = 1 << 6,
+	commas        = 1 << 7,	
 } Flag;
 
 typedef struct {
@@ -81,10 +82,10 @@ typedef struct {
 
 	int  size;
 	int  nb_file;
-	int  last_file;
 	bool subdir_error;
 	bool displayed;
-	bool file_arg;
+
+	int return_status;
 } Command;
 
 // apres les typedefs car besoin

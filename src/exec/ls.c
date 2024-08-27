@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/26 16:24:31 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:19:41 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int ft_ls(Command *cmd, File *parent) {
 			perror("");
 			parent->error = ft_strdup("ERNOSUCHFILE");
 		}
+		cmd->return_status = 1;
 		return 2;
 	}
 

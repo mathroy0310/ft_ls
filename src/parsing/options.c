@@ -6,14 +6,14 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:16 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:08:31 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/27 01:21:23 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 char *long_options[]  = {"recursive", "reverse", "all", "help", NULL};
-char  short_options[] = "lRart";
+char  short_options[] = "lRartm";
 
 int ambiguous_option(Arg *arg) {
 	arg->error.importance = 3;
@@ -48,6 +48,8 @@ void put_flag(Command *cmd, char flag) {
 		cmd->flags |= time_modif;
 	else if (flag == 'h')
 		cmd->flags |= help;
+	else if (flag == 'm')
+		cmd->flags |= commas;
 }
 
 int check_long_option(Command *cmd, Arg *arg) {

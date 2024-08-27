@@ -6,7 +6,7 @@
 #    By: maroy <maroy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 00:58:21 by maroy             #+#    #+#              #
-#    Updated: 2024/08/27 01:12:51 by maroy            ###   ########.fr        #
+#    Updated: 2024/08/27 01:24:40 by maroy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT = libft/libft.a
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g  -Iinclude -Ilibft/inc -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3  -Iinclude -Ilibft/inc -fsanitize=address
 
 LDFLAGS = -Llibft -lft
 
@@ -50,3 +50,6 @@ re: clean all
 
 clean:
 	@rm -rf $(OBJ_DIR)
+
+fclean: clean
+	@rm -rf $(NAME)
