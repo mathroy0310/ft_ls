@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:26:49 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:29:59 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <grp.h>
 #include <linux/limits.h>
+#include <locale.h>
 #include <pwd.h>
 #include <stdbool.h>
 #include <stdlib.h>

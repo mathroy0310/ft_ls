@@ -6,13 +6,13 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:04:07 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:04:16 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:30:27 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int compare_name(File *a, File *b) { return ft_strcmp(a->name, b->name); }
+int compare_name(File *a, File *b) { return strcoll(a->name, b->name); }
 
 int compare_time(File *a, File *b) {
 	if (a->last_modif < b->last_modif) return 1;

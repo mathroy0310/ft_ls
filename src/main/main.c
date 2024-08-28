@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:27:25 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:30:10 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void check_return_status(Command *cmd) {
 }
 
 int main(int ac, char **av) {
+	setlocale(LC_ALL, "");
 	Command *cmd = init_cmd(ac, av);
 
 	if (cmd->size == 1 && cmd->flags & help) {
