@@ -6,7 +6,7 @@
 #    By: maroy <maroy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 00:58:21 by maroy             #+#    #+#              #
-#    Updated: 2024/08/27 01:24:40 by maroy            ###   ########.fr        #
+#    Updated: 2024/08/28 02:48:45 by maroy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT = libft/libft.a
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g3  -Iinclude -Ilibft/inc -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibft/inc 
 
 LDFLAGS = -Llibft -lft
 

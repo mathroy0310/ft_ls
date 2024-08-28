@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:16:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:34:22 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:43:15 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 	"Mandatory arguments to long options are mandatory for short options "   \
 	"too.\n"                                                                 \
 	"-a, --all                  do not ignore entries starting with .\n"     \
+	"-d, --directory list directories themselves, not their contents\n"      \
+	"-g                         like -l, but do not list owner\n"            \
 	"-l                         use a long listing format\n"                 \
 	"-m                         fill width with a comma separated list of "  \
 	"entries\n"                                                              \
@@ -28,7 +30,7 @@
 	"-r, --reverse              reverse order while sorting\n"               \
 	"-R, --recursive            list subdirectories recursively\n"           \
 	"-t                         sort by time, newest first; see --time\n"    \
-	"\t--help     display this help and exit\n"                                \
+	"\t--help     display this help and exit\n"                              \
 	"\n"                                                                     \
 	"Use the define in include/header.c to modify the colors.\n"             \
 	"\n"                                                                     \

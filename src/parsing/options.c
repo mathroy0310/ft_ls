@@ -6,15 +6,15 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:16 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:36:50 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:47:32 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-char *long_options[]  = {"recursive", "reverse",    "all",
-                         "help",      "quote-name", NULL};
-char  short_options[] = "lRartmQ";
+char *long_options[]  = {"recursive",  "reverse",   "all", "help",
+                         "quote-name", "directory", NULL};
+char  short_options[] = "lRartmQgd";
 
 int ambiguous_option(Arg *arg) {
 	arg->error = true;
@@ -53,6 +53,11 @@ void put_flag(Command *cmd, char flag) {
 		cmd->flags |= commas;
 	else if (flag == 'Q')
 		cmd->flags |= quotes;
+	else if (flag == 'g') {
+		cmd->flags |= long_display;
+		cmd->flags |= no_owner;
+	} else if (flag == 'd')
+		cmd->flags |= dir_only;
 }
 
 int check_long_option(Command *cmd, Arg *arg) {
@@ -62,17 +67,26 @@ int check_long_option(Command *cmd, Arg *arg) {
 		if (!ft_strncmp(arg->content, long_options[i], ft_strlen(arg->content))) {
 			if (index != -1) return ambiguous_option(arg);
 
-			if (i == 0)
+			switch (i) {
+			case 0:
 				put_flag(cmd, 'R');
-			else if (i == 1)
+				break;
+			case 1:
 				put_flag(cmd, 'r');
-			else if (i == 2)
+				break;
+			case 2:
 				put_flag(cmd, 'a');
-			else if (i == 3)
+				break;
+			case 3:
 				put_flag(cmd, 'h');
-			else if (i == 4)
+				break;
+			case 4:
 				put_flag(cmd, 'Q');
-
+				break;
+			case 5:
+				put_flag(cmd, 'd');
+				break;
+			}
 			index = i;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:29:59 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:42:13 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,29 @@
 
 #define DIR_COLOR "\e[1;34m"
 #define LN_COLOR "\e[1;36m"
+#define EX_COLOR "\e[1;32m"
+#define OR_COLOR "\e[1;31m"
 #define RESET "\e[0m"
 
-#define COLOR(type) \
-	type == DIRECTORY ? DIR_COLOR : type == SYMLINK ? LN_COLOR : ""
-
+#define COLOR(type)                  \
+	type == DIRECTORY  ? DIR_COLOR : \
+	type == SYMLINK    ? LN_COLOR :  \
+	type == EXECUTABLE ? EX_COLOR :  \
+	type == DEAD_LINK  ? OR_COLOR :  \
+	                     ""
 typedef enum {
 	OPTION      = 1 << 0,
 	LONG_OPTION = 1 << 1,
 	ARG         = 1 << 2,
 } Arg_type;
 
-typedef enum { DIRECTORY, REGULAR_FILE, SYMLINK, DEAD_LINK } FileType;
+typedef enum {
+	DIRECTORY,
+	REGULAR_FILE,
+	SYMLINK,
+	DEAD_LINK,
+	EXECUTABLE
+} FileType;
 
 typedef enum {
 	long_display  = 1 << 0,
@@ -49,7 +60,9 @@ typedef enum {
 	help          = 1 << 5,
 	basic_display = 1 << 6,
 	commas        = 1 << 7,
-	quotes        = 1 << 8
+	quotes        = 1 << 8,
+	no_owner		= 1 << 9,
+	dir_only		= 1 << 10,
 } Flag;
 
 typedef struct File {

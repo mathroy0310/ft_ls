@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:25:50 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:33:34 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void permissions(File *file, mode_t mode) {
 	file->permissions[8]  = mode & S_IWOTH ? 'w' : '-';
 	file->permissions[9]  = mode & S_IXOTH ? 'x' : '-';
 	file->permissions[10] = '\0';
+
+	if (file->type == REGULAR_FILE && mode & S_IXUSR && mode & S_IXGRP && mode & S_IXOTH)
+		file->type = EXECUTABLE;
 }
 
 void analyze_file(File *file) {

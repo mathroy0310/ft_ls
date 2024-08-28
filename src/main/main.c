@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:30:10 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:46:23 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int main(int ac, char **av) {
 
 	if (cmd->size == 1 && cmd->flags & help) {
 		ft_printf(HELP_MSG);
+
 		return 0;
 	}
 
@@ -41,21 +42,22 @@ int main(int ac, char **av) {
 
 	sort(cmd->file_system, cmd->nb_file, cmd->flags & time_modif ? compare_time : compare_name);
 
-	bool files_in_args = false;
+	int regular_files = 0;
 	for (int i = 0; i < cmd->nb_file; i++) {
-		if (files_in_args) ft_printf(" ");
 		if (cmd->file_system[i]->type == REGULAR_FILE) {
-			ft_printf("%s%s%s%s", cmd->flags & quotes ? "\"" : "",
-			          cmd->file_system[i]->path, cmd->flags & quotes ? "\"" : "", cmd->flags & commas && i < cmd->nb_file - 1 ? "," : "");
-			files_in_args = true;
+			ls_display_file(cmd, cmd->file_system[i], true);
+			regular_files++;
 		}
 	}
 
-	if (files_in_args) ft_printf("\n\n");
+	if (regular_files && cmd->nb_file != regular_files) ft_printf("\n\n");
 
 	for (int i = 0; i < cmd->nb_file; i++) {
-		ls_display(cmd, cmd->file_system[i]);
+		if (cmd->flags & dir_only)
+			ls_display_file(cmd, cmd->file_system[i], i == cmd->nb_file - 1);
+		else
+			ls_display(cmd, cmd->file_system[i]);
 	}
-	
+
 	return free_command(cmd);
 }

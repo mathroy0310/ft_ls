@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:27:33 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:50:48 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ int handle_errors(File *node) {
 	return 1;
 }
 
-void display_file(Command *cmd, File *node, int last) {
+void ls_display_file(Command *cmd, File *node, bool last) {
 	if (cmd->flags & long_display) {
-		ft_printf("%s %d %s %s %d %s %s%s%s%s%s%s%s%s%s", node->permissions, node->nb_links, node->owner, node->group, node->size, node->last_modif_str, COLOR(node->type), cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET, node->type == SYMLINK ? " -> " : "", node->type == SYMLINK ? COLOR(node->link_type) : "", node->type == SYMLINK ? node->link_to : "", node->type == SYMLINK ? RESET : "");
-		if (!last) ft_printf("\n");
+		ft_printf("%s %d %s %s %d %s %s%s%s%s%s%s%s%s%s\n", node->permissions, node->nb_links, cmd->flags & no_owner ? "" : node->owner, node->group, node->size, node->last_modif_str, COLOR(node->type), cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET, node->type == SYMLINK ? " -> " : "", node->type == SYMLINK ? COLOR(node->link_type) : "", node->type == SYMLINK ? node->link_to : "", node->type == SYMLINK ? RESET : "");
 	} else {
-		ft_printf("%s%s%s%s%s%s ", COLOR(node->type), cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET, cmd->flags & commas && !last ? "," : "");
+		ft_printf("%s%s%s%s%s%s%s", COLOR(node->type), cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET, cmd->flags & commas && !last ? "," : "", !last ? " " : "");
 	}
+	if (last) ft_printf("\n");
 }
 
 void recursive_display(Command *cmd, File *node) {
@@ -67,14 +67,13 @@ void ls_display(Command *cmd, File *node) {
 	if (cmd->flags & long_display) ft_printf("total %d\n", node->blocks);
 	if (cmd->flags & reverse) {
 		for (int i = node->nb_childs - 1; i >= 0; i--) {
-			display_file(cmd, node->childs[i], i == 0);
+			ls_display_file(cmd, node->childs[i], i == 0);
 		}
 	} else {
 		for (int i = 0; i < node->nb_childs; i++) {
-			display_file(cmd, node->childs[i], i == node->nb_childs - 1);
+			ls_display_file(cmd, node->childs[i], i == node->nb_childs - 1);
 		}
 	}
-	if (node->nb_childs) ft_printf("\n");
 	if (cmd->flags & recursive)
 		recursive_display(cmd, node);
 	else {
