@@ -20,3 +20,18 @@ void add_to_file_system(File *parent, struct dirent *entry) {
 
 	analyze_file(new_entry);
 }
+
+void add_file_to_link(File *link) {
+	struct stat statbuf;
+
+	if (lstat(link->link_to, &statbuf) == -1) {
+		link->type      = DEAD_LINK;
+		link->link_type = DEAD_LINK;
+		return;
+	}
+
+	if (S_ISDIR(statbuf.st_mode))
+		link->link_type = DIRECTORY;
+	else if (S_ISREG(statbuf.st_mode))
+		link->link_type = REGULAR_FILE;
+}

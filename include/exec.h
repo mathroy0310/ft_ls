@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 10:52:10 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:34:55 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:27:04 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,5 +16,6 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-void  ft_ls(Command *cmd, File *parent);
+void ft_ls(Command *cmd, File *parent);
+void add_file_to_link(File *link);
 void add_to_file_system(File *parent, struct dirent *entry);

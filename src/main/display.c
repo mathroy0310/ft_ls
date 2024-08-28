@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:29:43 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/28 02:27:33 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int handle_errors(File *node) {
 
 void display_file(Command *cmd, File *node, int last) {
 	if (cmd->flags & long_display) {
-		ft_printf("%s %d %s %s %d %s %s%s%s%s%s", node->permissions, node->nb_links, node->owner, node->group, node->size, node->last_modif_str, node->type == DIRECTORY ? DIR_COLOR : "", cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET);
+		ft_printf("%s %d %s %s %d %s %s%s%s%s%s%s%s%s%s", node->permissions, node->nb_links, node->owner, node->group, node->size, node->last_modif_str, COLOR(node->type), cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET, node->type == SYMLINK ? " -> " : "", node->type == SYMLINK ? COLOR(node->link_type) : "", node->type == SYMLINK ? node->link_to : "", node->type == SYMLINK ? RESET : "");
 		if (!last) ft_printf("\n");
 	} else {
-		ft_printf("%s%s%s%s%s%s ", node->type == DIRECTORY ? DIR_COLOR : "", cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET, cmd->flags & commas && !last ? "," : "");
+		ft_printf("%s%s%s%s%s%s ", COLOR(node->type), cmd->flags & quotes ? "\"" : "", node->name, cmd->flags & quotes ? "\"" : "", RESET, cmd->flags & commas && !last ? "," : "");
 	}
 }
 
@@ -61,7 +61,7 @@ void ls_display(Command *cmd, File *node) {
 
 	if (cmd->flags & basic_display)
 		ft_printf("%s%s%s:\n", cmd->flags & quotes ? "\"" : "", node->path, cmd->flags & quotes ? "\"" : "");
-        
+
 	sort(node->childs, node->nb_childs, cmd->flags & time_modif ? compare_time : compare_name);
 
 	if (cmd->flags & long_display) ft_printf("total %d\n", node->blocks);
