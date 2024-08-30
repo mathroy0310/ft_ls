@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:35:20 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 15:03:05 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void ft_ls(Command *cmd, File *parent) {
 	DIR           *dir;
 	struct dirent *entry;
 
-	if (parent->type == REGULAR_FILE) return ;
+	if (parent->type == REGULAR_FILE) return;
 
 	if (!(dir = opendir(parent->path))) {
 		if (!ft_strcmp(strerror(errno), "Permission denied"))
@@ -27,17 +27,20 @@ void ft_ls(Command *cmd, File *parent) {
 			parent->error = ft_strdup("ERNOSUCHFILE");
 		}
 		cmd->return_status = 1;
-		return ;
+		return;
 	}
 
 	while ((entry = readdir(dir))) {
-		if (!(cmd->flags & all) && entry->d_name[0] == '.') continue;
+		if (!(cmd->flags & all)
+		    && (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, "..")))
+			continue;
+		if (!(cmd->flags & dotfiles) && entry->d_name[0] == '.') continue;
 		add_to_file_system(parent, entry);
 	}
 
 	closedir(dir);
 
-	if (!(cmd->flags & recursive)) return ;
+	if (!(cmd->flags & recursive)) return;
 	for (int i = 0; i < parent->nb_childs; i++) {
 		if (parent->childs[i]->type == DIRECTORY && ft_strcmp(parent->childs[i]->name, ".")
 		    && ft_strcmp(parent->childs[i]->name, "..")) {

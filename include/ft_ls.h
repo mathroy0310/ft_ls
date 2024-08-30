@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:57:03 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 15:03:18 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef enum {
 	quotes        = 1 << 8,
 	no_owner      = 1 << 9,
 	dir_only      = 1 << 10,
+	dotfiles      = 1 << 11,
 } Flag;
 
 typedef struct {
