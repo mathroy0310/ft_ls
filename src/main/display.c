@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:51:22 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 14:58:21 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void ls_display_file(Command *cmd, File *node, Size *size, bool last) {
 		ft_printf("%s", cmd->flags & quotes ? "\"" : "");
 		ft_printf("%s", RESET);
 		ft_printf("%s", cmd->flags & commas && !last ? "," : "");
-		ft_printf("%s", !last ? " " : "");
+		ft_printf("%s", !last ? "  " : "");
 		if (last) ft_printf("\n");
 	}
 }
@@ -111,7 +111,7 @@ void ls_display(Command *cmd, File *node) {
 
 	sort(node->childs, node->nb_childs, cmd->flags & time_modif ? compare_time : compare_name);
 
-	if (cmd->flags & long_display) ft_printf("total %d\n", node->blocks);
+	if (cmd->flags & long_display) ft_printf("total %d\n", node->total);
 
 	list_files(cmd, node);
 	if (cmd->flags & recursive)

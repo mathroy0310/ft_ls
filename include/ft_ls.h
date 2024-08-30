@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:43:58 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 14:57:03 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct File {
 	char  *group;
 	char  *size;
 	int    blocks;
+	int    total;
 } File;
 
 typedef struct {

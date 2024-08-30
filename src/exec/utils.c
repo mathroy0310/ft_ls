@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:44:36 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:50:34 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 14:57:24 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void add_to_file_system(File *parent, struct dirent *entry) {
 
 	analyze_file(new_entry);
 	calculate_size(&parent->size_childs, new_entry);
+
+	parent->total += new_entry->blocks / 2;
 }
 
 void add_file_to_link(File *link) {
