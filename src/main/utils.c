@@ -6,11 +6,17 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:33:34 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 14:39:31 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+void free_childs(File *node) {
+	for (int i = 0; i < node->nb_childs; i++) {
+		free_file(node->childs[i]);
+	}
+}
 
 int free_command(Command *cmd) {
 	int return_status = cmd->return_status;
