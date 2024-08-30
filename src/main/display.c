@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:58:21 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 15:12:21 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int handle_errors(File *node) {
 		return 0;
 	} else if (node->error && !ft_strcmp(node->error, "ERNOPERM")) {
 		fprintf(stderr, ERNOPERM, node->path);
+		free_file(node);
 		return 0;
 	}
 	return 1;
