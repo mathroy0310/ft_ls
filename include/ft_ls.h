@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/28 02:42:13 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 14:43:58 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,16 @@ typedef enum {
 	basic_display = 1 << 6,
 	commas        = 1 << 7,
 	quotes        = 1 << 8,
-	no_owner		= 1 << 9,
-	dir_only		= 1 << 10,
+	no_owner      = 1 << 9,
+	dir_only      = 1 << 10,
 } Flag;
+
+typedef struct {
+	size_t link;
+	size_t owner;
+	size_t group;
+	size_t size;
+} Size;
 
 typedef struct File {
 	FileType      type;
@@ -74,7 +81,8 @@ typedef struct File {
 
 	char *error;
 
-	int nb_childs;
+	int  nb_childs;
+	Size size_childs;
 
 	char     link_to[PATH_MAX];
 	FileType link_type;
@@ -82,10 +90,10 @@ typedef struct File {
 	time_t last_modif;
 	char   permissions[11];
 	char   last_modif_str[13];
-	int    nb_links;
+	char  *nb_links;
 	char  *owner;
 	char  *group;
-	int    size;
+	char  *size;
 	int    blocks;
 } File;
 

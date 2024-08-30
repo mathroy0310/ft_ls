@@ -1,4 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/30 14:44:36 by maroy             #+#    #+#             */
+/*   Updated: 2024/08/30 14:50:34 by maroy            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_ls.h"
+
+void calculate_size(Size *size, File *node) {
+	if (ft_strlen(node->nb_links) > size->link)
+		size->link = ft_strlen(node->nb_links);
+	if (ft_strlen(node->size) > size->size) size->size = ft_strlen(node->size);
+	if (ft_strlen(node->owner) > size->owner)
+		size->owner = ft_strlen(node->owner);
+	if (ft_strlen(node->group) > size->group)
+		size->group = ft_strlen(node->group);
+}
 
 void add_to_file_system(File *parent, struct dirent *entry) {
 	File **new_file_system = malloc((parent->nb_childs + 1) * sizeof(File));
@@ -19,6 +41,7 @@ void add_to_file_system(File *parent, struct dirent *entry) {
 	new_entry->path = clean_join(new_entry->path, new_entry->name);
 
 	analyze_file(new_entry);
+	calculate_size(&parent->size_childs, new_entry);
 }
 
 void add_file_to_link(File *link) {

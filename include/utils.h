@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:24 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:39:39 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/30 14:48:55 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int  free_command(Command *cmd);
 void free_file(File *file);
 void free_childs(File *node);
 
-void ls_display_file(Command *cmd, File *node, bool last);
+void ls_display_file(Command *cmd, File *node, Size *size, bool last);
 void ls_display(Command *cmd, File *node);
 
 char *clean_join(char *origin, const char *to_join);
