@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:11:50 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:26:01 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ void analyze_file(File *file, bool long_display) {
 		add_file_to_link(file);
 	}
 
+	permissions(file, statbuf.st_mode);
 	if (!long_display) return;
 	file->last_modif = statbuf.st_mtime;
 	ft_strlcpy(file->last_modif_str, ctime(&file->last_modif) + 4, 13);
-	permissions(file, statbuf.st_mode);
 	file->nb_links = ft_itoa(statbuf.st_nlink);
 
 	struct passwd *pw;
