@@ -1,26 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec.h                                             :+:      :+:    :+:   */
+/*   display.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/22 10:52:10 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:44:12 by maroy            ###   ########.fr       */
+/*   Created: 2024/08/31 14:44:37 by maroy             #+#    #+#             */
+/*   Updated: 2024/08/31 14:47:22 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <dirent.h>
-#include <stdio.h>
-#include <sys/types.h>
+#include "ft_ls.h"
 
-
-void ft_ls(Command *cmd, File *parent);
-
-
-void calculate_size(Size *size, File *node);
-
-void add_file_to_link(File *link);
-void add_to_file_system(File *parent, struct dirent *entry, bool long_display);
+void announce_path(Command *cmd, File *node);
+void ls_display_file(Command *cmd, File *file, Size *size, bool last);
+void ls_display(Command *cmd, File *node);

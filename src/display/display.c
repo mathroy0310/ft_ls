@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:34:23 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:44:02 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ static void list_files(Command *cmd, File *node) {
 	}
 }
 
-static void announce_path(Command *cmd, File *node) {
+void announce_path(Command *cmd, File *node) {
+	if (!(cmd->flags & basic_display)) return;
 	bool quoted = cmd->flags & quotes;
 	if (cmd->flags & basic_display) {
 		ft_printf("%s%s%s:\n", quoted ? "\"" : "", node->path, quoted ? "\"" : "");
@@ -62,10 +63,6 @@ void ls_display(Command *cmd, File *node) {
 		free_file(node, cmd->flags & long_display);
 		return;
 	}
-
-	!cmd->displayed ? cmd->displayed = true : ft_printf("\n");
-
-	announce_path(cmd, node);
 
 	sort(node->childs, node->nb_childs, cmd->flags & time_modif ? compare_time : compare_name);
 

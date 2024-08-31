@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:40:45 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:43:26 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void ft_ls(Command *cmd, File *parent) {
 		cmd->return_status = 1;
 		return;
 	}
+
+	!cmd->displayed ? cmd->displayed = true : ft_printf("\n");
+	announce_path(cmd, parent);
 
 	while ((entry = readdir(dir))) {
 		if (!(cmd->flags & all)

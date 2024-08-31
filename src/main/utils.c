@@ -6,15 +6,15 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:30:01 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:46:14 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void free_childs(File *node, bool long_display) {
-	for (int i = 0; i < node->nb_childs; i++) {
-		free_file(node->childs[i], long_display);
+void free_childs(File *parent, bool long_display) {
+	for (int i = 0; i < parent->nb_childs; i++) {
+		free_file(parent->childs[i], long_display);
 	}
 }
 

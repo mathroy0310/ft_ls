@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:39:56 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:44:50 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,3 +131,4 @@ typedef struct {
 #include "exec.h"
 #include "parsing.h"
 #include "utils.h"
+#include "display.h"
