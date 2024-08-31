@@ -6,7 +6,7 @@
 #    By: maroy <maroy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 00:58:21 by maroy             #+#    #+#              #
-#    Updated: 2024/08/31 14:07:01 by maroy            ###   ########.fr        #
+#    Updated: 2024/08/31 14:31:10 by maroy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ LDFLAGS = -Llibft -lft
 
 SRC_DIR = src/
 OBJ_DIR = obj/
-FILES = main/main main/utils main/sort main/display parsing/errors parsing/options parsing/parsing exec/ls exec/utils
+FILES = main/main main/utils main/sort main/stats parsing/errors parsing/options parsing/parsing exec/ls exec/utils display/display display/utils
 
 SRCS = $(addprefix $(SRC_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
