@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:44:36 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:57:24 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:17:33 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void calculate_size(Size *size, File *node) {
 		size->group = ft_strlen(node->group);
 }
 
-void add_to_file_system(File *parent, struct dirent *entry) {
+void add_to_file_system(File *parent, struct dirent *entry, bool long_display) {
 	File **new_file_system = malloc((parent->nb_childs + 1) * sizeof(File));
 
 	for (int i = 0; i < parent->nb_childs; i++) {
@@ -40,18 +40,35 @@ void add_to_file_system(File *parent, struct dirent *entry) {
 	new_entry->path = clean_join(new_entry->path, "/");
 	new_entry->path = clean_join(new_entry->path, new_entry->name);
 
-	analyze_file(new_entry);
+	analyze_file(new_entry, long_display);
+	if (!long_display) return;
 	calculate_size(&parent->size_childs, new_entry);
 
 	parent->total += new_entry->blocks / 2;
 }
 
+char *get_link_path(File *link) {
+	int   len    = ft_strlen(link->path) - ft_strlen(link->name);
+	char *result = malloc(len + 1);
+
+	result[len] = '\0';
+	for (int i = 0; i < len; i++) {
+		result[i] = link->path[i];
+	}
+
+	result = clean_join(result, link->link_to);
+	return result;
+}
+
 void add_file_to_link(File *link) {
 	struct stat statbuf;
 
-	if (lstat(link->link_to, &statbuf) == -1) {
+	char *link_path = get_link_path(link);
+
+	if (lstat(link_path, &statbuf) == -1) {
 		link->type      = DEAD_LINK;
 		link->link_type = DEAD_LINK;
+		free(link_path);
 		return;
 	}
 
@@ -59,4 +76,5 @@ void add_file_to_link(File *link) {
 		link->link_type = DIRECTORY;
 	else if (S_ISREG(statbuf.st_mode))
 		link->link_type = REGULAR_FILE;
+	free(link_path);
 }

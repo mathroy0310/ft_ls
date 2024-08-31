@@ -6,15 +6,15 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 13:53:38 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:11:50 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-void free_childs(File *node) {
+void free_childs(File *node, bool long_display) {
 	for (int i = 0; i < node->nb_childs; i++) {
-		free_file(node->childs[i]);
+		free_file(node->childs[i], long_display);
 	}
 }
 
@@ -24,20 +24,25 @@ int free_command(Command *cmd) {
 	for (int i = 0; i < cmd->size; i++) {
 		free(cmd->args[i].content);
 	}
+	for (int i = 0; i < cmd->nb_file; i++) {
+		free_file(cmd->file_system[i], cmd->flags & long_display);
+	}
 	free(cmd->args);
 	free(cmd->file_system);
 	free(cmd);
 	return return_status;
 }
 
-void free_file(File *file) {
+void free_file(File *file, bool long_display) {
 	free(file->name);
 	free(file->path);
 	free(file->childs);
-	free(file->owner);
-	free(file->group);
-	free(file->nb_links);
-	free(file->size);
+	if (long_display) {
+		free(file->owner);
+		free(file->group);
+		free(file->nb_links);
+		free(file->size);
+	}
 	free(file);
 }
 
@@ -65,7 +70,7 @@ void permissions(File *file, mode_t mode) {
 		file->type = EXECUTABLE;
 }
 
-void analyze_file(File *file) {
+void analyze_file(File *file, bool long_display) {
 	struct stat statbuf;
 
 	if (lstat(file->path, &statbuf) == -1) return;
@@ -83,6 +88,7 @@ void analyze_file(File *file) {
 		add_file_to_link(file);
 	}
 
+	if (!long_display) return;
 	file->last_modif = statbuf.st_mtime;
 	ft_strlcpy(file->last_modif_str, ctime(&file->last_modif) + 4, 13);
 	permissions(file, statbuf.st_mode);
@@ -101,8 +107,8 @@ void analyze_file(File *file) {
 		return;
 	}
 
-	file->owner = ft_strdup(pw->pw_name);
-	file->group = ft_strdup(group->gr_name);
-	file->size  = ft_itoa(statbuf.st_size);
-	file->blocks   = statbuf.st_blocks;
+	file->owner  = ft_strdup(pw->pw_name);
+	file->group  = ft_strdup(group->gr_name);
+	file->size   = ft_itoa(statbuf.st_size);
+	file->blocks = statbuf.st_blocks;
 }

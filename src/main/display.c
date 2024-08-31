@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 13:53:28 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:15:22 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ int handle_errors(File *node) {
 		return 0;
 	}
 	if (node->error && node->error == NOSUCHFILE) {
-		free_file(node);
 		return 0;
 	} else if (node->error && node->error == NOPERM) {
 		fprintf(stderr, ERNOPERM, node->path);
-		free_file(node);
 		return 0;
 	}
 	return 1;
@@ -37,31 +35,36 @@ void ls_display_file(Command *cmd, File *node, Size *size, bool last) {
 		ft_printf("%s ", node->permissions);
 		put_spaces(size->link, ft_strlen(node->nb_links));
 		ft_printf("%s ", node->nb_links);
-		put_spaces(size->owner, ft_strlen(node->owner));
-		ft_printf("%s ", cmd->flags & no_owner ? "" : node->owner);
+		if (!(cmd->flags & no_owner)) {
+			put_spaces(size->owner, ft_strlen(node->owner));
+			ft_printf("%s ", node->owner);
+		}
 		put_spaces(size->group, ft_strlen(node->group));
 		ft_printf("%s ", node->group);
 		put_spaces(size->size, ft_strlen(node->size));
 		ft_printf("%s ", node->size);
 		ft_printf("%s ", node->last_modif_str);
-		ft_printf("%s", COLOR(node->type));
-		ft_printf("%s", cmd->flags & quotes ? "\"" : "");
-		ft_printf("%s", node->name);
-		ft_printf("%s", cmd->flags & quotes ? "\"" : "");
-		ft_printf("%s", RESET);
-		ft_printf("%s", node->type == SYMLINK ? " -> " : "");
-		ft_printf("%s", node->type == SYMLINK ? COLOR(node->link_type) : "");
-		ft_printf("%s", node->type == SYMLINK ? node->link_to : "");
-		ft_printf("%s\n", node->type == SYMLINK ? RESET : "");
+		ft_putstr(COLOR(node->type));
+		if (cmd->flags & quotes) ft_putstr("\"");
+		ft_putstr(node->name);
+		if (cmd->flags & quotes) ft_putstr("\"");
+		ft_putstr(RESET);
+		if (node->type == SYMLINK || node->type == DEAD_LINK) {
+			ft_putstr(" -> ");
+			ft_putstr(COLOR(node->link_type));
+			ft_putstr(node->link_to);
+			ft_putstr(RESET);
+		}
+		ft_putchar('\n');
 	} else {
-		ft_printf("%s", COLOR(node->type));
-		ft_printf("%s", cmd->flags & quotes ? "\"" : "");
-		ft_printf("%s", node->name);
-		ft_printf("%s", cmd->flags & quotes ? "\"" : "");
-		ft_printf("%s", RESET);
-		ft_printf("%s", cmd->flags & commas && !last ? "," : "");
-		ft_printf("%s", !last ? "  " : "");
-		if (last) ft_printf("\n");
+		ft_putstr(COLOR(node->type));
+		if (cmd->flags & quotes) ft_putstr("\"");
+		ft_putstr(node->name);
+		if (cmd->flags & quotes) ft_putstr("\"");
+		ft_putstr(RESET);
+		if (cmd->flags & commas && !last) ft_putstr(",");
+		if (!last) ft_putstr("  ");
+		if (last) ft_putstr("\n");
 	}
 }
 
@@ -71,14 +74,14 @@ static void recursive_display(Command *cmd, File *node) {
 			if (node->childs[i]->type == DIRECTORY)
 				ls_display(cmd, node->childs[i]);
 			else
-				free_file(node->childs[i]);
+				free_file(node->childs[i], cmd->flags & long_display);
 		}
 	} else {
 		for (int i = 0; i < node->nb_childs; i++) {
 			if (node->childs[i]->type == DIRECTORY)
 				ls_display(cmd, node->childs[i]);
 			else
-				free_file(node->childs[i]);
+				free_file(node->childs[i], cmd->flags & long_display);
 		}
 	}
 }
@@ -104,7 +107,7 @@ static void announce_path(Command *cmd, File *node) {
 
 void ls_display(Command *cmd, File *node) {
 	if (!handle_errors(node)) {
-		free_file(node);
+		free_file(node, cmd->flags & long_display);
 		return;
 	}
 
@@ -117,10 +120,4 @@ void ls_display(Command *cmd, File *node) {
 	if (cmd->flags & long_display) ft_printf("total %d\n", node->total);
 
 	list_files(cmd, node);
-	if (cmd->flags & recursive)
-		recursive_display(cmd, node);
-	else
-		free_childs(node);
-
-	free_file(node);
 }

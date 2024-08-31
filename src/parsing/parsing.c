@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:13 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/27 01:08:49 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:12:14 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ Command *init_cmd(int ac, char **av) {
 		result->file_system[0]       = ft_calloc(1, sizeof(File));
 		result->file_system[0]->name = ft_strdup(".");
 		result->file_system[0]->path = ft_strdup(".");
-		analyze_file(result->file_system[0]);
-		result->nb_file++;
+		analyze_file(result->file_system[0], result->flags & long_display);
+		result->nb_file = 1;
 		return result;
 	}
 
@@ -67,7 +67,7 @@ Command *init_cmd(int ac, char **av) {
 			result->file_system[j]       = ft_calloc(1, sizeof(File));
 			result->file_system[j]->name = ft_strdup(result->args[i].content);
 			result->file_system[j]->path = ft_strdup(result->args[i].content);
-			analyze_file(result->file_system[j++]);
+			analyze_file(result->file_system[j++], result->flags & long_display);
 		}
 	}
 
