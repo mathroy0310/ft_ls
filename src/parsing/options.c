@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:16 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 15:09:39 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:20:03 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int invalid_option(Arg *arg, int index) {
 }
 
 void put_flag(Command *cmd, char flag) {
-	if (flag == 'l')
+	if (flag == 'l' && !(cmd->flags & commas))
 		cmd->flags |= long_display;
 	else if (flag == 'R')
 		cmd->flags |= recursive;
@@ -50,9 +50,10 @@ void put_flag(Command *cmd, char flag) {
 		cmd->flags |= time_modif;
 	else if (flag == 'h')
 		cmd->flags |= help;
-	else if (flag == 'm')
+	else if (flag == 'm') {
 		cmd->flags |= commas;
-	else if (flag == 'Q')
+		cmd->flags &= ~long_display;
+	} else if (flag == 'Q')
 		cmd->flags |= quotes;
 	else if (flag == 'g') {
 		cmd->flags |= long_display;
