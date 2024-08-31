@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 15:12:21 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 13:53:28 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 int handle_errors(File *node) {
 	if (node->type == REGULAR_FILE) {
-		free_file(node);
 		return 0;
 	}
-	if (node->error && !ft_strcmp(node->error, "ERNOSUCHFILE")) {
+	if (node->error && node->error == NOSUCHFILE) {
 		free_file(node);
 		return 0;
-	} else if (node->error && !ft_strcmp(node->error, "ERNOPERM")) {
+	} else if (node->error && node->error == NOPERM) {
 		fprintf(stderr, ERNOPERM, node->path);
 		free_file(node);
 		return 0;
@@ -104,7 +103,10 @@ static void announce_path(Command *cmd, File *node) {
 }
 
 void ls_display(Command *cmd, File *node) {
-	if (!handle_errors(node)) return;
+	if (!handle_errors(node)) {
+		free_file(node);
+		return;
+	}
 
 	!cmd->displayed ? cmd->displayed = true : ft_printf("\n");
 

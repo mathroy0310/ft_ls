@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 15:03:18 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 13:51:42 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@
 	type == EXECUTABLE ? EX_COLOR :  \
 	type == DEAD_LINK  ? OR_COLOR :  \
 	                     ""
+
+typedef enum { NOERROR, NOSUCHFILE, NOPERM } Error;
+
 typedef enum {
 	OPTION      = 1 << 0,
 	LONG_OPTION = 1 << 1,
@@ -80,7 +83,7 @@ typedef struct File {
 	char *path;
 	char *name;
 
-	char *error;
+	Error error;
 
 	int  nb_childs;
 	Size size_childs;

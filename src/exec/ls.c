@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 15:03:05 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 13:52:02 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ void ft_ls(Command *cmd, File *parent) {
 
 	if (!(dir = opendir(parent->path))) {
 		if (!ft_strcmp(strerror(errno), "Permission denied"))
-			parent->error = ft_strdup("ERNOPERM");
+			parent->error = NOPERM;
 		else {
 			fprintf(stderr, ERNOAC, parent->path);
 			perror("");
-			parent->error = ft_strdup("ERNOSUCHFILE");
+			parent->error = NOSUCHFILE;
 		}
 		cmd->return_status = 1;
 		return;

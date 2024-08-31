@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 14:59:00 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 13:53:38 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int free_command(Command *cmd) {
 }
 
 void free_file(File *file) {
-	if (file->error) free(file->error);
 	free(file->name);
 	free(file->path);
 	free(file->childs);
