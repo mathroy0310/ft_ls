@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:29:22 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:30:15 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:37:03 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,12 @@ static void permissions(File *file, mode_t mode) {
 }
 
 void analyze_file(File *file, bool long_display) {
-	struct stat statbuf;
+	struct stat statbuf = {};
 
-	if (lstat(file->path, &statbuf) == -1) return;
+	if (lstat(file->path, &statbuf) == -1) {
+        file->error = STAT;
+        return;
+	}
 
 	if (S_ISDIR(statbuf.st_mode))
 		file->type = DIRECTORY;

@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:07:51 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:40:45 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@ void ft_ls(Command *cmd, File *parent) {
 	if (parent->type == REGULAR_FILE) return;
 
 	if (!(dir = opendir(parent->path))) {
-		if (!ft_strcmp(strerror(errno), "Permission denied"))
-			parent->error = NOPERM;
-		else {
+		if (cmd->level)
+			fprintf(stderr, ERNOPERM, parent->path);
+		else
 			fprintf(stderr, ERNOAC, parent->path);
-			perror("");
-			parent->error = NOSUCHFILE;
-		}
+		perror("");
 		cmd->return_status = 1;
 		return;
 	}
@@ -45,8 +43,10 @@ void ft_ls(Command *cmd, File *parent) {
 		for (int i = 0; i < parent->nb_childs; i++) {
 			if (parent->childs[i]->type == DIRECTORY
 			    && ft_strcmp(parent->childs[i]->name, ".")
-			    && ft_strcmp(parent->childs[i]->name, ".."))
+			    && ft_strcmp(parent->childs[i]->name, "..")) {
+				cmd->level++;
 				ft_ls(cmd, parent->childs[i]);
+			}
 		}
 	}
 	free_childs(parent, cmd->flags & long_display);

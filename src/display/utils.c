@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:28:18 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:28:24 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:40:12 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@ static void ls_display_file_name(Command *cmd, File *file) {
 
 void ls_display_file(Command *cmd, File *node, Size *size, bool last) {
 	if (cmd->flags & long_display) {
+		if (node->error == STAT) {
+			ft_printf("%c???????? ? ? ? ? ? ", node->type == DIRECTORY ? 'd' : '-');
+			ls_display_file_name(cmd, node);
+			ft_putchar_fd('\n', 1);
+			return;
+		}
 		ft_printf("%s ", node->permissions);
 		put_spaces(node->nb_links, size->link, ft_strlen(node->nb_links));
 

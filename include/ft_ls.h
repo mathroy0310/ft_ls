@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 13:51:42 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:39:56 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,12 @@
 	type == DEAD_LINK  ? OR_COLOR :  \
 	                     ""
 
-typedef enum { NOERROR, NOSUCHFILE, NOPERM } Error;
+typedef enum {
+	NOERROR,
+	NOSUCHFILE,
+	NOPERM,
+	STAT,
+} Error;
 
 typedef enum {
 	OPTION      = 1 << 0,
@@ -119,6 +124,7 @@ typedef struct {
 	bool displayed;
 
 	int return_status;
+	int level;
 } Command;
 
 // apres les typedefs car besoin

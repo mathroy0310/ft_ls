@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:44:36 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:29:20 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:40:56 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,16 @@ void add_to_file_system(File *parent, struct dirent *entry, bool long_display) {
 	new_entry->path = clean_join(new_entry->path, "/");
 	new_entry->path = clean_join(new_entry->path, new_entry->name);
 
+	if (entry->d_type == DT_DIR)
+		new_entry->type = DIRECTORY;
+	else if (entry->d_type == DT_LNK)
+		new_entry->type = SYMLINK;
+	else
+		new_entry->type = REGULAR_FILE;
+
 	analyze_file(new_entry, long_display);
 	if (!long_display) return;
 	calculate_size(&parent->size_childs, new_entry);
 
 	parent->total += new_entry->blocks / 2;
 }
-

@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:28:18 by maroy            ###   ########.fr       */
+/*   Updated: 2024/08/31 14:34:23 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,7 @@ int handle_errors(File *node) {
 	if (node->type == REGULAR_FILE) {
 		return 0;
 	}
-	if (node->error && node->error == NOSUCHFILE) {
-		return 0;
-	} else if (node->error && node->error == NOPERM) {
-		fprintf(stderr, ERNOPERM, node->path);
-		return 0;
-	}
+	if (node->error) return 0;
 	return 1;
 }
 
