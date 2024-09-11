@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:13 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:12:14 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 22:12:04 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ Arg *parse_args(int ac, char **av) {
 	return result;
 }
 
+static int get_cols() {
+	struct winsize w;
+
+	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == -1) return -1;
+	return w.ws_col;
+}
+
 Command *init_cmd(int ac, char **av) {
 	Command *result = ft_calloc(1, sizeof(Command));
 
@@ -49,6 +56,8 @@ Command *init_cmd(int ac, char **av) {
 
 	if (result->nb_file > 1 || result->flags & recursive)
 		result->flags |= basic_display;
+
+	result->cols = get_cols();
 
 	if (result->nb_file == 0) {
 		result->file_system          = malloc(sizeof(File *));

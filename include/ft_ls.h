@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:44:50 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 22:27:58 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <time.h>
 
@@ -75,6 +76,12 @@ typedef enum {
 } Flag;
 
 typedef struct {
+	int  max_el;
+	int  n_lines;
+	int  n_cols;
+	int *cols;
+	int  curr_col;
+
 	size_t link;
 	size_t owner;
 	size_t group;
@@ -125,10 +132,11 @@ typedef struct {
 
 	int return_status;
 	int level;
+	int cols;
 } Command;
 
 // apres les typedefs car besoin
+#include "display.h"
 #include "exec.h"
 #include "parsing.h"
 #include "utils.h"
-#include "display.h"

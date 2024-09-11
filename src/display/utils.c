@@ -6,15 +6,16 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:28:18 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:47:12 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 22:15:06 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void put_spaces(char *str, int max_size, int current_size) {
-	while (current_size++ < max_size)
+void put_spaces(char *str, int max_size, int current_size) {
+	while (current_size++ < max_size) {
 		ft_putchar(' ');
+	}
 	ft_printf("%s ", str);
 }
 
@@ -59,6 +60,9 @@ void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
 		ft_putchar('\n');
 	} else {
 		ls_display_file_name(cmd, file);
-		ft_putstr(last ? "\n" : cmd->flags & commas ? ", " : "  ");
+		if (cmd->flags & commas && !last) ft_putchar(',');
+		if (!last) {
+			put_spaces(" ", size->cols[size->curr_col], ft_strlen(file->name));
+		}
 	}
 }
