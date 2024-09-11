@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 22:27:58 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 22:35:13 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,16 @@ typedef enum {
 } Flag;
 
 typedef struct {
+	int *files;
+	int  size;
+} Col;
+
+typedef struct {
 	int  max_el;
+	int  curr_col;
 	int  n_lines;
 	int  n_cols;
-	int *cols;
-	int  curr_col;
+	Col *cols;
 
 	size_t link;
 	size_t owner;
@@ -98,7 +103,7 @@ typedef struct File {
 	Error error;
 
 	int  nb_childs;
-	Size size_childs;
+	Size  len;
 
 	char     link_to[PATH_MAX];
 	FileType link_type;

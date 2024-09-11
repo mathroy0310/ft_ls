@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:44:36 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 22:13:49 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 22:40:12 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void add_to_file_system(File *parent, struct dirent *entry, bool long_display) {
 		new_entry->type = REGULAR_FILE;
 
 	int len = ft_strlen(new_entry->name);
-	if (parent->size_childs.max_el < len) parent->size_childs.max_el = len;
+	if (parent->len.max_el < len) parent->len.max_el = len;
 
 	analyze_file(new_entry, long_display);
 	if (!long_display) return;
-	calculate_size(&parent->size_childs, new_entry);
+	calculate_size(&parent->len, new_entry);
 
 	parent->total += new_entry->blocks / 2;
 }

@@ -6,13 +6,20 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:28:18 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 22:15:06 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 22:39:42 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void put_spaces(char *str, int max_size, int current_size) {
+int round_split(int a, int b) {
+	if (b == 0) return 0;
+	int result = a / b;
+	if ((double) (a) / (double) (b) > result) result++;
+	return result;
+}
+
+static void put_spaces(char *str, int max_size, int current_size) {
 	while (current_size++ < max_size) {
 		ft_putchar(' ');
 	}
@@ -61,8 +68,8 @@ void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
 	} else {
 		ls_display_file_name(cmd, file);
 		if (cmd->flags & commas && !last) ft_putchar(',');
-		if (!last) {
-			put_spaces(" ", size->cols[size->curr_col], ft_strlen(file->name));
-		}
+		if (!last)
+			put_spaces(cmd->flags & commas ? "" : " ",
+			           size->cols[size->curr_col].size, ft_strlen(file->name));
 	}
 }
