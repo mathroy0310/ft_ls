@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:21 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:14:11 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:03:19 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void check_return_status(Command *cmd) {
 }
 
 static void display_file_system(Command *cmd) {
-	sort(cmd->file_system, cmd->nb_file, cmd->flags & time_modif ? compare_time : compare_name);
+	sort(cmd, cmd->file_system, cmd->nb_file);
 	for (int i = 0; i < cmd->nb_file; i++) {
 		ft_ls(cmd, cmd->file_system[i]);
 	}
