@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:28:18 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 22:39:42 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:18:41 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ static void quoted(Command *cmd, char *str) {
 }
 
 static void ls_display_file_name(Command *cmd, File *file) {
-	ft_putstr(COLOR(file->type));
+	if (!cmd->def) ft_putstr(COLOR(file->type));
 	quoted(cmd, file->name);
-	ft_putstr(RESET);
+	if (!cmd->def) ft_putstr(RESET);
 }
 
 void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
@@ -60,16 +60,20 @@ void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
 
 		if (file->type == SYMLINK || file->type == DEAD_LINK) {
 			ft_putstr(" -> ");
-			ft_putstr(COLOR(file->link_type));
+			if (!cmd->def) ft_putstr(COLOR(file->link_type));
 			quoted(cmd, file->link_to);
-			ft_putstr(RESET);
+			if (!cmd->def) ft_putstr(RESET);
 		}
 		ft_putchar('\n');
 	} else {
 		ls_display_file_name(cmd, file);
 		if (cmd->flags & commas && !last) ft_putchar(',');
-		if (!last)
-			put_spaces(cmd->flags & commas ? "" : " ",
-			           size->cols[size->curr_col].size, ft_strlen(file->name));
+		if (!last) {
+			if (!cmd->def)
+				put_spaces(cmd->flags & commas ? "" : " ",
+				           size->cols[size->curr_col].size, ft_strlen(file->name));
+			else
+				ft_printf(cmd->flags & commas ? ",\n" : "\n");
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 22:35:13 by maroy            ###   ########.fr       */
+/*   Updated: 2024/09/10 23:09:14 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct {
 	int return_status;
 	int level;
 	int cols;
+	bool def;
 } Command;
 
 // apres les typedefs car besoin

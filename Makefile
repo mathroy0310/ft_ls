@@ -6,7 +6,7 @@
 #    By: maroy <maroy@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/08/21 00:58:21 by maroy             #+#    #+#              #
-#    Updated: 2024/08/31 14:51:09 by maroy            ###   ########.fr        #
+#    Updated: 2024/09/10 23:15:26 by maroy            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CC = cc
 
 CFLAGS = -Wall -Wextra -Werror -Iinclude -Ilibft/inc -g3 -fsanitize=address -Wno-unused-function
 
-LDFLAGS = -Llibft -lft
+LDFLAGS = -Llibft -lft -fsanitize=address
 
 SRC_DIR = src/
 OBJ_DIR = obj/
