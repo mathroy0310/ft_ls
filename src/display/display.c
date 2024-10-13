@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 23:13:41 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/12 20:25:45 by maroy            ###   ########.qc       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void ls_display(Command *cmd, File *node) {
 
 	sort(cmd, node->childs, node->nb_childs);
 
-	if (cmd->flags & long_display) ft_printf("total %d\n", node->total);
+	if (cmd->flags & long_display || cmd->flags & block_size) ft_printf("total %d\n", node->total);
 
 	if (cmd->flags & long_display || cmd->cols <= 0) {
 		cmd->def = true;

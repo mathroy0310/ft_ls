@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   options.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:35:16 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:20:03 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/12 20:23:40 by maroy            ###   ########.qc       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
 char *long_options[]  = {"recursive",  "reverse",   "all",        "help",
-                         "quote-name", "directory", "almost-all", NULL};
-char  short_options[] = "lRartmQgdA";
+                         "quote-name", "directory", "almost-all", "size", NULL};
+char  short_options[] = "lRartmQgdAsS";
 
 int ambiguous_option(Arg *arg) {
 	arg->error = true;
@@ -62,6 +62,10 @@ void put_flag(Command *cmd, char flag) {
 		cmd->flags |= dir_only;
 	else if (flag == 'A')
 		cmd->flags |= dotfiles;
+	else if (flag == 's')
+		cmd->flags |= block_size;
+	else if (flag == 'S')
+		cmd->flags |= sort_size;
 }
 
 int check_long_option(Command *cmd, Arg *arg) {
@@ -92,6 +96,9 @@ int check_long_option(Command *cmd, Arg *arg) {
 				break;
 			case 6:
 				put_flag(cmd, 'A');
+				break;
+			case 7:
+				put_flag(cmd, 's');
 				break;
 			}
 			index = i;

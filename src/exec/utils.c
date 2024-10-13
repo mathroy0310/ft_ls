@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:44:36 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 23:06:08 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/12 18:02:07 by maroy            ###   ########.qc       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void calculate_size(Size *size, File *node) {
 		size->owner = ft_strlen(node->owner);
 	if (ft_strlen(node->group) > size->group)
 		size->group = ft_strlen(node->group);
+	if (node->blocks > size->blocks)
+		size->blocks = node->blocks;
 }
 
 void add_to_file_system(File *parent, struct dirent *entry, bool long_display) {
@@ -54,5 +56,7 @@ void add_to_file_system(File *parent, struct dirent *entry, bool long_display) {
 	if (!long_display) return;
 	calculate_size(&parent->len, new_entry);
 
-	parent->total += new_entry->blocks / 2;
+	// linux you need to divide by two ??
+	//parent->total += new_entry->blocks / 2;
+	parent->total += new_entry->blocks;
 }

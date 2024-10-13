@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:28:18 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 23:18:41 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/12 18:35:44 by maroy            ###   ########.qc       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,12 @@ static void ls_display_file_name(Command *cmd, File *file) {
 
 void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
 	if (cmd->flags & long_display) {
+		if (cmd->flags & block_size) 
+		{	
+			char *str_block_size = ft_itoa(file->blocks);
+			put_spaces(str_block_size, ft_ll_length(size->blocks), ft_strlen(str_block_size));
+			free(str_block_size);
+		}
 		if (file->error == STAT) {
 			ft_printf("%c???????? ? ? ? ? ? ", file->type == DIRECTORY ? 'd' : '-');
 			ls_display_file_name(cmd, file);
@@ -66,6 +72,12 @@ void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
 		}
 		ft_putchar('\n');
 	} else {
+		if (cmd->flags & block_size) 
+		{	
+			char *str_block_size = ft_itoa(file->blocks);
+			put_spaces(str_block_size, ft_ll_length(size->blocks), ft_strlen(str_block_size));
+			free(str_block_size);
+		}
 		ls_display_file_name(cmd, file);
 		if (cmd->flags & commas && !last) ft_putchar(',');
 		if (!last) {

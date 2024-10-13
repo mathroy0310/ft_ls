@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:04:07 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 23:06:04 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/12 20:22:42 by maroy            ###   ########.qc       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int compare_name(File *a, File *b) { return strcoll(a->name, b->name); }
 
 int compare_time(File *a, File *b) {
 	if (a->last_modif < b->last_modif) return 1;
+	return 0;
+}
+
+int compare_size(File *a, File *b)
+{
+	if (a->blocks < b->blocks) return 1;
 	return 0;
 }
 
@@ -49,6 +55,8 @@ static void quicksort(Command *cmd, File **arr, int low, int high, int (*compare
 
 void sort(Command *cmd, File **arr, int size) {
 	if (cmd->flags & time_modif)
+		quicksort(cmd, arr, 0, size - 1, compare_time);
+	else if (cmd->flags & sort_size)
 		quicksort(cmd, arr, 0, size - 1, compare_time);
 	else
 		quicksort(cmd, arr, 0, size - 1, compare_name);

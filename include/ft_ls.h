@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 23:09:14 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/12 20:25:15 by maroy            ###   ########.qc       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "libft.h"
 #include <errno.h>
 #include <grp.h>
-#include <linux/limits.h>
+#include <limits.h>
+// #include <linux/limits.h>
 #include <locale.h>
 #include <pwd.h>
 #include <stdbool.h>
@@ -73,6 +74,8 @@ typedef enum {
 	no_owner      = 1 << 9,
 	dir_only      = 1 << 10,
 	dotfiles      = 1 << 11,
+	block_size    = 1 << 12,
+	sort_size     = 1 << 13
 } Flag;
 
 typedef struct {
@@ -91,6 +94,7 @@ typedef struct {
 	size_t owner;
 	size_t group;
 	size_t size;
+	int    blocks;
 } Size;
 
 typedef struct File {
@@ -103,7 +107,7 @@ typedef struct File {
 	Error error;
 
 	int  nb_childs;
-	Size  len;
+	Size len;
 
 	char     link_to[PATH_MAX];
 	FileType link_type;
@@ -135,9 +139,9 @@ typedef struct {
 	bool subdir_error;
 	bool displayed;
 
-	int return_status;
-	int level;
-	int cols;
+	int  return_status;
+	int  level;
+	int  cols;
 	bool def;
 } Command;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ls.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 16:00:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 23:07:01 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/12 18:00:21 by maroy            ###   ########.qc       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void ft_ls(Command *cmd, File *parent) {
 		    && (!ft_strcmp(entry->d_name, ".") || !ft_strcmp(entry->d_name, "..")))
 			continue;
 		if (!(cmd->flags & dotfiles) && entry->d_name[0] == '.') continue;
-		add_to_file_system(parent, entry, cmd->flags & long_display);
+		add_to_file_system(parent, entry, cmd->flags & long_display || cmd->flags & block_size);
 	}
 
 	closedir(dir);
