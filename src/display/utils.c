@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:28:18 by maroy             #+#    #+#             */
-/*   Updated: 2024/10/12 18:35:44 by maroy            ###   ########.qc       */
+/*   Updated: 2024/10/13 22:55:51 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,8 @@ static void ls_display_file_name(Command *cmd, File *file) {
 
 void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
 	if (cmd->flags & long_display) {
-		if (cmd->flags & block_size) 
-		{	
-			char *str_block_size = ft_itoa(file->blocks);
-			put_spaces(str_block_size, ft_ll_length(size->blocks), ft_strlen(str_block_size));
-			free(str_block_size);
+		if (cmd->flags & block_size) {
+			put_spaces(file->blocks, size->blocks, ft_strlen(file->blocks));
 		}
 		if (file->error == STAT) {
 			ft_printf("%c???????? ? ? ? ? ? ", file->type == DIRECTORY ? 'd' : '-');
@@ -72,11 +69,8 @@ void ls_display_file(Command *cmd, File *file, Size *size, bool last) {
 		}
 		ft_putchar('\n');
 	} else {
-		if (cmd->flags & block_size) 
-		{	
-			char *str_block_size = ft_itoa(file->blocks);
-			put_spaces(str_block_size, ft_ll_length(size->blocks), ft_strlen(str_block_size));
-			free(str_block_size);
+		if (cmd->flags & block_size) {
+			put_spaces(file->blocks, size->blocks, ft_strlen(file->blocks));
 		}
 		ls_display_file_name(cmd, file);
 		if (cmd->flags & commas && !last) ft_putchar(',');

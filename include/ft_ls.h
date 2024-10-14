@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 01:20:03 by maroy             #+#    #+#             */
-/*   Updated: 2024/10/12 20:25:15 by maroy            ###   ########.qc       */
+/*   Updated: 2024/10/13 23:00:41 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <errno.h>
 #include <grp.h>
 #include <limits.h>
-// #include <linux/limits.h>
 #include <locale.h>
 #include <pwd.h>
 #include <stdbool.h>
@@ -26,6 +25,8 @@
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 #include <time.h>
+
+
 
 #define DIR_COLOR "\e[1;34m"
 #define LN_COLOR "\e[1;36m"
@@ -94,7 +95,7 @@ typedef struct {
 	size_t owner;
 	size_t group;
 	size_t size;
-	int    blocks;
+	size_t blocks;
 } Size;
 
 typedef struct File {
@@ -119,8 +120,9 @@ typedef struct File {
 	char  *owner;
 	char  *group;
 	char  *size;
-	int    blocks;
+	char  *blocks;
 	int    total;
+
 } File;
 
 typedef struct {

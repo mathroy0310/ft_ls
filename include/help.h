@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:16:33 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/30 15:01:20 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/13 22:21:10 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@
 	"\t-Q, --quote-name           enclose entry names in double quotes\n"     \
 	"\t-r, --reverse              reverse order while sorting\n"              \
 	"\t-R, --recursive            list subdirectories recursively\n"          \
+	"\t-s, --size                 print the allocated size of each file, in " \
+	"blocks\n"                                                                \
+	"\t-S                         sort by file size, largest first\n"         \
 	"\t-t                         sort by time, newest first\n"               \
 	"\t\t--help     display this help and exit\n"                             \
 	"\n"                                                                      \

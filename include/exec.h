@@ -16,9 +16,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 
-
 void ft_ls(Command *cmd, File *parent);
-
 
 void calculate_size(Size *size, File *node);
 

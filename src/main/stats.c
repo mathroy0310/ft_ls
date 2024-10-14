@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:29:22 by maroy             #+#    #+#             */
-/*   Updated: 2024/08/31 14:49:17 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/13 23:08:52 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void analyze_file(File *file, bool long_display) {
 	struct stat statbuf = {};
 
 	if (lstat(file->path, &statbuf) == -1) {
-        file->error = STAT;
-        return;
+		file->error = STAT;
+		return;
 	}
 
 	if (S_ISDIR(statbuf.st_mode))
@@ -104,5 +104,9 @@ void analyze_file(File *file, bool long_display) {
 	file->owner  = ft_strdup(pw->pw_name);
 	file->group  = ft_strdup(group->gr_name);
 	file->size   = ft_itoa(statbuf.st_size);
-	file->blocks = statbuf.st_blocks;
+	#if defined(__linux__)
+		file->blocks = ft_itoa(statbuf.st_blocks / 2);
+	#elif defined(__APPLE__) && defined(__MACH__)
+		file->blocks = ft_itoa(statbuf.st_blocks)	;
+	#endif
 }

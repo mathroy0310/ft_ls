@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:13:41 by maroy             #+#    #+#             */
-/*   Updated: 2024/10/12 20:25:45 by maroy            ###   ########.qc       */
+/*   Updated: 2024/10/13 23:11:40 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void get_cols_indexes(File *node) {
 
 void ls_display(Command *cmd, File *node) {
 	if (!handle_errors(node)) {
-		free_file(node, cmd->flags & long_display);
+		free_file(node, cmd->flags & long_display || cmd->flags & block_size);
 		return;
 	}
 
@@ -104,7 +104,8 @@ void ls_display(Command *cmd, File *node) {
 
 	sort(cmd, node->childs, node->nb_childs);
 
-	if (cmd->flags & long_display || cmd->flags & block_size) ft_printf("total %d\n", node->total);
+	if (cmd->flags & long_display || cmd->flags & block_size)
+		ft_printf("total %d\n", node->total);
 
 	if (cmd->flags & long_display || cmd->cols <= 0) {
 		cmd->def = true;

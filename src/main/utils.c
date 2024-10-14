@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 15:54:12 by maroy             #+#    #+#             */
-/*   Updated: 2024/09/10 23:06:51 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/13 23:10:49 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void free_file(File *file, bool long_display) {
 		free(file->group);
 		free(file->nb_links);
 		free(file->size);
+		free(file->blocks);
 	}
 	free(file);
 }

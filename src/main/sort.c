@@ -19,8 +19,7 @@ int compare_time(File *a, File *b) {
 	return 0;
 }
 
-int compare_size(File *a, File *b)
-{
+int compare_size(File *a, File *b) {
 	if (a->blocks < b->blocks) return 1;
 	return 0;
 }

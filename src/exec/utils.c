@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/30 14:44:36 by maroy             #+#    #+#             */
-/*   Updated: 2024/10/12 18:02:07 by maroy            ###   ########.qc       */
+/*   Updated: 2024/10/13 23:09:00 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void calculate_size(Size *size, File *node) {
 		size->owner = ft_strlen(node->owner);
 	if (ft_strlen(node->group) > size->group)
 		size->group = ft_strlen(node->group);
-	if (node->blocks > size->blocks)
-		size->blocks = node->blocks;
+	if (ft_strlen(node->blocks) > size->blocks)
+		size->blocks = ft_strlen(node->blocks);
 }
 
 void add_to_file_system(File *parent, struct dirent *entry, bool long_display) {
@@ -55,8 +55,5 @@ void add_to_file_system(File *parent, struct dirent *entry, bool long_display) {
 	analyze_file(new_entry, long_display);
 	if (!long_display) return;
 	calculate_size(&parent->len, new_entry);
-
-	// linux you need to divide by two ??
-	//parent->total += new_entry->blocks / 2;
-	parent->total += new_entry->blocks;
+	parent->total += ft_atoi(new_entry->blocks);
 }

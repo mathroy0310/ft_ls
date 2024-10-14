@@ -12,8 +12,8 @@
 
 #include "ft_ls.h"
 
-char *long_options[]  = {"recursive",  "reverse",   "all",        "help",
-                         "quote-name", "directory", "almost-all", "size", NULL};
+char *long_options[] = {"recursive", "reverse",    "all",  "help", "quote-name",
+                        "directory", "almost-all", "size", NULL};
 char  short_options[] = "lRartmQgdAsS";
 
 int ambiguous_option(Arg *arg) {
