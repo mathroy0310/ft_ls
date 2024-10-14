@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maroy <maroy@student.42quebec.com>         +#+  +:+       +#+        */
+/*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 01:04:07 by maroy             #+#    #+#             */
-/*   Updated: 2024/10/12 20:22:42 by maroy            ###   ########.qc       */
+/*   Updated: 2024/10/13 23:28:09 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,19 @@
 int compare_name(File *a, File *b) { return strcoll(a->name, b->name); }
 
 int compare_time(File *a, File *b) {
-	if (a->last_modif < b->last_modif) return 1;
+	if (a->last_modif < b->last_modif) return 1;  // a is older
+	if (a->last_modif > b->last_modif) return -1; // a is newer
 	return 0;
 }
 
 int compare_size(File *a, File *b) {
-	if (a->blocks < b->blocks) return 1;
+	if (ft_atoi(a->blocks) < ft_atoi(b->blocks)) return 1; // a is smaller
+	if (ft_atoi(a->blocks) > ft_atoi(b->blocks)) return -1; // a is larger	
+
+    if (a->type != DIRECTORY && b->type == DIRECTORY) return 1;
+	if (a->type == DIRECTORY && b->type != DIRECTORY) return -1;
+
+	
 	return 0;
 }
 
@@ -56,7 +63,7 @@ void sort(Command *cmd, File **arr, int size) {
 	if (cmd->flags & time_modif)
 		quicksort(cmd, arr, 0, size - 1, compare_time);
 	else if (cmd->flags & sort_size)
-		quicksort(cmd, arr, 0, size - 1, compare_time);
+		quicksort(cmd, arr, 0, size - 1, compare_size);
 	else
 		quicksort(cmd, arr, 0, size - 1, compare_name);
 }
