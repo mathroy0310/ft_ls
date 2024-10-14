@@ -6,7 +6,7 @@
 /*   By: maroy <maroy@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:29:22 by maroy             #+#    #+#             */
-/*   Updated: 2024/10/13 23:08:52 by maroy            ###   ########.fr       */
+/*   Updated: 2024/10/13 23:34:44 by maroy            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,20 @@ void add_file_to_link(File *link) {
 	free(link_path);
 }
 
+static char get_filetype(FileType type) {
+	switch (type) {
+	case DIRECTORY:
+		return 'd';
+	case SYMLINK:
+	case DEAD_LINK:
+		return 'l';
+	default:
+		return '-';
+	}
+}
+
 static void permissions(File *node, mode_t mode) {
-	node->permissions[0]  = node->type == DIRECTORY ? 'd' : '-';
+	node->permissions[0]  = get_filetype(node->type);
 	node->permissions[1]  = mode & S_IRUSR ? 'r' : '-';
 	node->permissions[2]  = mode & S_IWUSR ? 'w' : '-';
 	node->permissions[3]  = mode & S_IXUSR ? 'x' : '-';
@@ -101,12 +113,12 @@ void analyze_file(File *file, bool long_display) {
 		return;
 	}
 
-	file->owner  = ft_strdup(pw->pw_name);
-	file->group  = ft_strdup(group->gr_name);
-	file->size   = ft_itoa(statbuf.st_size);
-	#if defined(__linux__)
-		file->blocks = ft_itoa(statbuf.st_blocks / 2);
-	#elif defined(__APPLE__) && defined(__MACH__)
-		file->blocks = ft_itoa(statbuf.st_blocks)	;
-	#endif
+	file->owner = ft_strdup(pw->pw_name);
+	file->group = ft_strdup(group->gr_name);
+	file->size  = ft_itoa(statbuf.st_size);
+#if defined(__linux__)
+	file->blocks = ft_itoa(statbuf.st_blocks / 2);
+#elif defined(__APPLE__) && defined(__MACH__)
+	file->blocks = ft_itoa(statbuf.st_blocks);
+#endif
 }
